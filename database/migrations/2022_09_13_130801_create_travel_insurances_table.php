@@ -15,7 +15,7 @@ class CreateTravelInsurancesTable extends Migration
     {
         Schema::create('travel_insurances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('insurance_types_id');
+            $table->boolean('group');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -25,8 +25,6 @@ class CreateTravelInsurancesTable extends Migration
             $table->dateTime('return');
             $table->string('from');
             $table->string('to');
-            $table->string('vacation_length');
-            $table->foreign('insurance_types_id')->references('id')->on('insurance_types');
             $table->timestamps();
         });
     }
