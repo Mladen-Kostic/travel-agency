@@ -17,7 +17,7 @@ class CreatePostStatusesTable extends Migration
             $table->id();
             $table->dateTime('published_at')->nullable();
             $table->dateTime('archived_at')->nullable();
-            $table->boolean('staging');
+            $table->boolean('staging')->default(0);
             $table->timestamps();
         });
     }

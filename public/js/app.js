@@ -19490,9 +19490,45 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addToGroupList: function addToGroupList() {
-      var fieldEmpty = false;
+      var fieldEmpty = false; // if (this.firstName && this.lastName && this.dob) {
+      //     this.$emit('addToGroupList', {
+      //         first_name: this.firstName,
+      //         last_name: this.lastName,
+      //         dob: this.dob
+      //     });
+      //     this.firstName = '';
+      //     this.lastName = '';
+      //     this.dob = '';
+      // }
 
-      if (this.firstName && this.lastName && this.dob) {
+      if (this.firstName) {
+        document.querySelector('#group_first_name').classList.add('is-valid');
+        document.querySelector('#group_first_name').classList.remove('is-invalid');
+      } else {
+        fieldEmpty = true;
+        document.querySelector('#group_first_name').classList.add('is-invalid');
+        document.querySelector('#group_first_name').classList.remove('is-valid');
+      }
+
+      if (this.lastName) {
+        document.querySelector('#group_last_name').classList.add('is-valid');
+        document.querySelector('#group_last_name').classList.remove('is-invalid');
+      } else {
+        fieldEmpty = true;
+        document.querySelector('#group_last_name').classList.add('is-invalid');
+        document.querySelector('#group_last_name').classList.remove('is-valid');
+      }
+
+      if (this.dob) {
+        document.querySelector('#group_dob').classList.add('is-valid');
+        document.querySelector('#group_dob').classList.remove('is-invalid');
+      } else {
+        fieldEmpty = true;
+        document.querySelector('#group_dob').classList.add('is-invalid');
+        document.querySelector('#group_dob').classList.remove('is-valid');
+      }
+
+      if (!fieldEmpty) {
         this.$emit('addToGroupList', {
           first_name: this.firstName,
           last_name: this.lastName,
@@ -19501,14 +19537,9 @@ __webpack_require__.r(__webpack_exports__);
         this.firstName = '';
         this.lastName = '';
         this.dob = '';
-      }
-
-      if (this.firstName) {
-        document.querySelector('#group_first_name').classList.add('is-valid');
-        document.querySelector('#group_first_name').classList.remove('is-invalid');
-      } else {
-        document.querySelector('#group_first_name').classList.add('is-invalid');
         document.querySelector('#group_first_name').classList.remove('is-valid');
+        document.querySelector('#group_last_name').classList.remove('is-valid');
+        document.querySelector('#group_dob').classList.remove('is-valid');
       }
     }
   }
@@ -19563,7 +19594,10 @@ __webpack_require__.r(__webpack_exports__);
       group: false,
       d_inline_block: 'd-inline-block',
       groupInsuranceList: [],
-      isInvalid: ''
+      isInvalid: '',
+      error: false,
+      success: false,
+      message: ''
     };
   },
   methods: {
@@ -19586,10 +19620,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     makeInsurance: function makeInsurance(e) {
+      var _this = this;
+
       var fieldEmpty = false;
       var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; // document.querySelectorAll('#travelInsuranceForm input').forEach(input => console.log(input.value));
 
       document.querySelectorAll('#travelInsuranceForm input').forEach(function (input) {
+        if (input.id.startsWith('group')) {
+          return;
+        }
+
         if (!input.value) {
           fieldEmpty = true;
           input.classList.add('is-invalid');
@@ -19611,35 +19651,61 @@ __webpack_require__.r(__webpack_exports__);
           departure: e.target.departure.value,
           "return": e.target["return"].value,
           from: e.target.from.value,
-          to: e.target.from.value
+          to: e.target.to.value,
+          groupInsuranceList: this.groupInsuranceList
         };
 
         if (this.isNumeric(formData.phone)) {
-          console.log('phone valid');
           document.querySelector('#phone').classList.remove('is-invalid');
         } else {
           document.querySelector('#phone').classList.add('is-invalid');
           document.querySelector('#phone').nextSibling.innerText = 'Phone Number should at least have 7 digits.';
+          return;
         }
 
         if (filter.test(formData.email)) {
-          console.log('email valid');
           document.querySelector('#email').classList.remove('is-invalid');
         } else {
           document.querySelector('#email').classList.add('is-invalid');
           document.querySelector('#email').nextSibling.innerText = 'This field has to be valid email.';
-        } // axios({
-        //     method: 'post',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        //     },
-        //     url: '/api/travel-insurance/store',
-        //     data: formData
-        // })
-        //     .then(res => console.log(res))
-        //     .catch(error => console.log('error'));
+          return;
+        }
 
+        axios({
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          url: '/api/travel-insurance/store',
+          data: formData
+        }).then(function (res) {
+          if (res.data.error) {
+            _this.error = true;
+            _this.message = res.data.message;
+            setTimeout(function () {
+              this.error = false;
+              this.message = '';
+              document.querySelector('.alert').remove();
+            }, 5000);
+          }
+
+          if (res.data.success) {
+            _this.success = res.data.success;
+            _this.message = res.data.message;
+            document.querySelectorAll('#travelInsuranceForm input').forEach(function (input) {
+              input.value = '';
+              input.classList.remove('is-valid');
+            });
+            setTimeout(function () {
+              this.success = false;
+              this.message = '';
+              document.querySelector('.alert').remove();
+            }, 5000);
+          }
+        })["catch"](function (error) {
+          return console.log(error);
+        });
       }
     }
   }
@@ -19765,12 +19831,12 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "col-1 text-center"
+  "class": "col-3 text-center"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-secondary btn-md addBtn"
+  "class": "btn btn-secondary addBtn btn-block"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-plus-circle"
-})])], -1
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add")])], -1
 /* HOISTED */
 );
 
@@ -19892,39 +19958,51 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_6 = {
   key: 0,
+  "class": "alert alert-danger",
+  role: "alert"
+};
+var _hoisted_7 = {
+  key: 1,
+  "class": "alert alert-success",
+  role: "alert"
+};
+var _hoisted_8 = {
+  key: 2,
   type: "hidden",
   name: "group",
   value: "1"
 };
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"row col-6\"><div class=\"col-6\"><label for=\"departure\">Departure Date</label><input name=\"departure\" type=\"date\" class=\"form-control\" id=\"departure\"><div class=\"invalid-feedback\"> Departure Date field is mandatory. </div></div><div class=\"col-6\"><label for=\"return\">Return Date</label><input name=\"return\" type=\"date\" class=\"form-control\" id=\"return\"><div class=\"invalid-feedback\"> Return Date field is mandatory. </div></div></div><div class=\"row col-6 ml-4\"><div class=\"col-6\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"><div class=\"invalid-feedback\"> Travel From field is mandatory. </div></div><div class=\"col-6\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"><div class=\"invalid-feedback\"> Travel To field is mandatory. </div></div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback\"> Last Name field is mandatory. </div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback\"> Email field is mandatory. </div></div><div class=\"col-6\"><label for=\"phone\">Phone</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"><div class=\"invalid-feedback\"> Phone field is mandatory. </div></div></div><div class=\"form-group\"><label for=\"last_name\">Date of Birth</label><input name=\"dob\" type=\"date\" class=\"form-control\" id=\"dob\"><div class=\"invalid-feedback\"> This field is mandatory. </div></div>", 4);
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"row col-6\"><div class=\"col-6\"><label for=\"departure\">Departure Date</label><input name=\"departure\" type=\"date\" class=\"form-control\" id=\"departure\"><div class=\"invalid-feedback\"> Departure Date field is mandatory. </div></div><div class=\"col-6\"><label for=\"return\">Return Date</label><input name=\"return\" type=\"date\" class=\"form-control\" id=\"return\"><div class=\"invalid-feedback\"> Return Date field is mandatory. </div></div></div><div class=\"row col-6 ml-4\"><div class=\"col-6\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"><div class=\"invalid-feedback\"> Travel From field is mandatory. </div></div><div class=\"col-6\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"><div class=\"invalid-feedback\"> Travel To field is mandatory. </div></div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback\"> Last Name field is mandatory. </div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback\"> Email field is mandatory. </div></div><div class=\"col-6\"><label for=\"phone\">Phone</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"><div class=\"invalid-feedback\"> Phone field is mandatory. </div></div></div><div class=\"form-group\"><label for=\"last_name\">Date of Birth</label><input name=\"dob\" type=\"date\" class=\"form-control\" id=\"dob\"><div class=\"invalid-feedback\"> This field is mandatory. </div></div>", 4);
 
-var _hoisted_11 = {
-  key: 0
-};
-var _hoisted_12 = {
-  "class": "col-4"
-};
 var _hoisted_13 = {
-  "class": "col-4"
+  key: 0
 };
 var _hoisted_14 = {
   "class": "col-3"
 };
 var _hoisted_15 = {
-  "class": "col-1"
+  "class": "col-3"
 };
-var _hoisted_16 = ["onClick"];
+var _hoisted_16 = {
+  "class": "col-3"
+};
+var _hoisted_17 = {
+  "class": "col-3"
+};
+var _hoisted_18 = ["onClick"];
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-trash-alt"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_18 = [_hoisted_17];
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove");
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_21 = [_hoisted_19, _hoisted_20];
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit",
   "class": "btn btn-primary"
 }, "Get Insurance", -1
@@ -19958,38 +20036,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.makeInsurance && $options.makeInsurance.apply($options, arguments);
     }, ["prevent"]))
-  }, [$data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, null, {
+  }, [$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_GroupInsurance, {
+      return [$data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_GroupInsurance, {
         onAddToGroupList: _cache[1] || (_cache[1] = function (obj) {
           return $data.groupInsuranceList.push(obj);
         })
       }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.groupInsuranceList, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: item.id,
-          "class": "form-group row"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.first_name), 1
+          "class": "form-group row groupInsuranceItem"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.first_name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.last_name), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.last_name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.dob), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.dob), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
           onClick: function onClick($event) {
             return $options.removeItem(item);
           },
-          "class": "btn btn-secondary trashBtn"
-        }, _hoisted_18, 8
+          "class": "btn btn-secondary trashBtn btn-block"
+        }, _hoisted_21, 8
         /* PROPS */
-        , _hoisted_16)])]);
+        , _hoisted_18)])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"groupInsuranceList.length\" class=\"dropdown show row\">\r\n                    <a class=\"btn btn-secondary btn-block dropdown-toggle col-9\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\r\n                        Check List\r\n                    </a>\r\n                    <div class=\"col-3\">\r\n                        <a @click=\"removeItem(item)\" class=\"btn btn-secondary trashBtn btn-block\"><i class=\"fas fa-trash-alt\"></i> Remove All</a>\r\n                    </div>\r\n\r\n                    <div class=\"dropdown-menu col-9 p-2\" aria-labelledby=\"dropdownMenuLink\">\r\n                        <div v-for=\"item in groupInsuranceList\" :key=\"item.id\" class=\"form-group row\">\r\n                            <div class=\"col-3\">{{ item.first_name }}</div>\r\n                            <div class=\"col-3\">{{ item.last_name }}</div>\r\n                            <div class=\"col-3\">{{ item.dob }}</div>\r\n                            <div class=\"col-3\">\r\n                                <a @click=\"removeItem(item)\" class=\"btn btn-primary trashBtn btn-block text-white\"><i class=\"fas fa-trash-alt\"></i> Remove</a>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */
 
-  }), _hoisted_19], 32
+  }), _hoisted_22], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -20238,7 +20320,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#toggle {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n  bottom: 7px\n}\r\n\r\n/* Hide default HTML checkbox */\n.switch input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\n}\r\n\r\n/* The slider */\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  transition: .4s;\n}\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: #fff;\r\n  transition: .4s;\n}\ninput:checked + .slider {\r\n  background-color: #2196F3;\n}\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\n}\ninput:checked + .slider:before {\r\n  transform: translateX(26px);\n}\r\n\r\n/* Rounded sliders */\n.slider.round {\r\n  border-radius: 34px;\n}\n.slider.round:before {\r\n  border-radius: 50%;\n}\n.textOpacity {\r\n    opacity: 0.6;\n}\n#travelInsuranceForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem;\r\n    border-radius: 2%;\n}\n.trashBtn {\r\n    cursor: pointer;\r\n    margin-left: 0.6rem;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#toggle {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n  bottom: 7px\n}\r\n\r\n/* Hide default HTML checkbox */\n.switch input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\n}\r\n\r\n/* The slider */\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  transition: .4s;\n}\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: #fff;\r\n  transition: .4s;\n}\ninput:checked + .slider {\r\n  background-color: #2196F3;\n}\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\n}\ninput:checked + .slider:before {\r\n  transform: translateX(26px);\n}\r\n\r\n/* Rounded sliders */\n.slider.round {\r\n  border-radius: 34px;\n}\n.slider.round:before {\r\n  border-radius: 50%;\n}\n.textOpacity {\r\n    opacity: 0.6;\n}\n#travelInsuranceForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem;\r\n    border-radius: 2%;\n}\n.trashBtn {\r\n    cursor: pointer;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.groupInsuranceItem {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

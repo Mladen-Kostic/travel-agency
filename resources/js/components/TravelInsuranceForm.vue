@@ -13,6 +13,15 @@
         </div>
         
         <form id="travelInsuranceForm" @submit.prevent="makeInsurance">
+
+            <div v-if="error" class="alert alert-danger" role="alert">
+                {{ this.message }}
+            </div>
+
+            <div v-if="success" class="alert alert-success" role="alert">
+                {{ this.message }}
+            </div>
+
             <input v-if="group" type="hidden" name="group" value="1">
             <div class="form-group row">
                 <div class="row col-6">
@@ -94,14 +103,36 @@
             <div v-if="group">
                 <GroupInsurance @addToGroupList="(obj) => groupInsuranceList.push(obj)" />
 
-                <div v-for="item in groupInsuranceList" :key="item.id" class="form-group row">
-                    <div class="col-4">{{ item.first_name }}</div>
-                    <div class="col-4">{{ item.last_name }}</div>
+                <div v-for="item in groupInsuranceList" :key="item.id" class="form-group row groupInsuranceItem">
+                    <div class="col-3">{{ item.first_name }}</div>
+                    <div class="col-3">{{ item.last_name }}</div>
                     <div class="col-3">{{ item.dob }}</div>
-                    <div class="col-1">
-                        <a @click="removeItem(item)" class="btn btn-secondary trashBtn"><i class="fas fa-trash-alt"></i></a>
+                    <div class="col-3">
+                        <a @click="removeItem(item)" class="btn btn-secondary trashBtn btn-block"><i class="fas fa-trash-alt"></i> Remove</a>
                     </div>
                 </div>
+
+                <!-- <div v-if="groupInsuranceList.length" class="dropdown show row">
+                    <a class="btn btn-secondary btn-block dropdown-toggle col-9" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Check List
+                    </a>
+                    <div class="col-3">
+                        <a @click="removeItem(item)" class="btn btn-secondary trashBtn btn-block"><i class="fas fa-trash-alt"></i> Remove All</a>
+                    </div>
+
+                    <div class="dropdown-menu col-9 p-2" aria-labelledby="dropdownMenuLink">
+                        <div v-for="item in groupInsuranceList" :key="item.id" class="form-group row">
+                            <div class="col-3">{{ item.first_name }}</div>
+                            <div class="col-3">{{ item.last_name }}</div>
+                            <div class="col-3">{{ item.dob }}</div>
+                            <div class="col-3">
+                                <a @click="removeItem(item)" class="btn btn-primary trashBtn btn-block text-white"><i class="fas fa-trash-alt"></i> Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+
             </div>
             </Transition>
             <button type="submit" class="btn btn-primary">Get Insurance</button>
@@ -113,7 +144,6 @@
 <script>
 import GroupInsurance from './GroupInsurance.vue';
 export default {
-
     name: 'TravelInsuranceForm',
     components: {
         GroupInsurance
@@ -124,7 +154,10 @@ export default {
             group: false,
             d_inline_block: 'd-inline-block',
             groupInsuranceList: [],
-            isInvalid: ''
+            isInvalid: '',
+            error: false,
+            success: false,
+            message: ''
         }
     },
     methods: {
@@ -150,6 +183,10 @@ export default {
 
             // document.querySelectorAll('#travelInsuranceForm input').forEach(input => console.log(input.value));
             document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
+                if (input.id.startsWith('group')) {
+                    return;
+                }
+
                 if (!input.value) {
                     fieldEmpty = true;
                     input.classList.add('is-invalid');
@@ -161,6 +198,7 @@ export default {
             });
 
             if (!fieldEmpty) {
+
                 let formData = {
                     group: e.target.group ? e.target.group.value : 0,
                     first_name: e.target.first_name.value,
@@ -171,36 +209,69 @@ export default {
                     departure: e.target.departure.value,
                     return: e.target.return.value,
                     from: e.target.from.value,
-                    to: e.target.from.value
+                    to: e.target.to.value,
+                    groupInsuranceList: this.groupInsuranceList
                 };
 
                 if (this.isNumeric(formData.phone)) {
-                    console.log('phone valid');
                     document.querySelector('#phone').classList.remove('is-invalid');
                 } else {
                     document.querySelector('#phone').classList.add('is-invalid');
                     document.querySelector('#phone').nextSibling.innerText = 'Phone Number should at least have 7 digits.';
+                    return;
                 }
 
                 if (filter.test(formData.email)) {
-                    console.log('email valid');
                     document.querySelector('#email').classList.remove('is-invalid');
                 } else {
                     document.querySelector('#email').classList.add('is-invalid');
                     document.querySelector('#email').nextSibling.innerText = 'This field has to be valid email.';
+                    return;
                 }
 
-                // axios({
-                //     method: 'post',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                //     },
-                //     url: '/api/travel-insurance/store',
-                //     data: formData
-                // })
-                //     .then(res => console.log(res))
-                //     .catch(error => console.log('error'));
+                axios({
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    url: '/api/travel-insurance/store',
+                    data: formData
+                })
+                    .then(res => {
+                        
+                        if (res.data.error) {
+                            this.error = true;
+                            this.message = res.data.message;
+
+                            setTimeout(function() {
+                                this.error = false;
+                                this.message = '';
+
+                                document.querySelector('.alert').remove();
+                            }, 5000);
+                            
+                        }
+
+                        if (res.data.success) {
+                            this.success = res.data.success;
+                            this.message = res.data.message;
+
+                            document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
+                                input.value = '';
+                                input.classList.remove('is-valid');
+                            });
+
+                            setTimeout(function() {
+                                this.success = false;
+                                this.message = '';
+
+                                document.querySelector('.alert').remove();
+                            }, 5000);
+                        }
+
+                    })
+                    .catch(error => console.log(error));
             }
 
         }
@@ -288,10 +359,13 @@ input:checked + .slider:before {
 
 .trashBtn {
     cursor: pointer;
-    margin-left: 0.6rem;
 }
 
 .invalid-feedback {
     color: #fff!important;
+}
+
+.groupInsuranceItem {
+    border-top: 1px solid rgba(255, 255, 255, 0.295);
 }
 </style>

@@ -1,11 +1,15 @@
 <template>
     <div id="main">
         <navbar @activeTabEvent="(msg) => activeTab = msg" />
+
         <div class="container">
             <Transition>
-            <component :is="activeTab" />
+                <component
+                    :is="activeTab"
+                />
             </Transition>
             <!-- <TravelInsuranceForm v-if="activeTab === 'TravelInsuranceForm'" /> -->
+            
         </div>
     </div>
 </template>

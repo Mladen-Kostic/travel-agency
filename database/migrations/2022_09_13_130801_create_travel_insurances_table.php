@@ -15,7 +15,7 @@ class CreateTravelInsurancesTable extends Migration
     {
         Schema::create('travel_insurances', function (Blueprint $table) {
             $table->id();
-            $table->boolean('group');
+            $table->boolean('group')->default(0);
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
