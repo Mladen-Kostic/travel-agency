@@ -19895,7 +19895,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _hoisted_1 = {
-  id: "intro"
+  id: "intro",
+  "class": "rounded"
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -19973,7 +19974,7 @@ var _hoisted_8 = {
   value: "1"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"row col-6\"><div class=\"col-6\"><label for=\"departure\">Departure Date</label><input name=\"departure\" type=\"date\" class=\"form-control\" id=\"departure\"><div class=\"invalid-feedback\"> Departure Date field is mandatory. </div></div><div class=\"col-6\"><label for=\"return\">Return Date</label><input name=\"return\" type=\"date\" class=\"form-control\" id=\"return\"><div class=\"invalid-feedback\"> Return Date field is mandatory. </div></div></div><div class=\"row col-6 ml-4\"><div class=\"col-6\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"><div class=\"invalid-feedback\"> Travel From field is mandatory. </div></div><div class=\"col-6\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"><div class=\"invalid-feedback\"> Travel To field is mandatory. </div></div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback\"> Last Name field is mandatory. </div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback\"> Email field is mandatory. </div></div><div class=\"col-6\"><label for=\"phone\">Phone</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"><div class=\"invalid-feedback\"> Phone field is mandatory. </div></div></div><div class=\"form-group\"><label for=\"last_name\">Date of Birth</label><input name=\"dob\" type=\"date\" class=\"form-control\" id=\"dob\"><div class=\"invalid-feedback\"> This field is mandatory. </div></div>", 4);
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"row col-6\"><div class=\"col-12\"><label for=\"departure\">Departure Date</label><input name=\"departure\" type=\"date\" class=\"form-control\" id=\"departure\"><div class=\"invalid-feedback\"> Departure Date field is mandatory. </div></div><div class=\"col-12\"><label for=\"return\">Return Date</label><input name=\"return\" type=\"date\" class=\"form-control\" id=\"return\"><div class=\"invalid-feedback\"> Return Date field is mandatory. </div></div></div><div class=\"row col-6 ml-4\"><div class=\"col-12\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"><div class=\"invalid-feedback\"> Travel From field is mandatory. </div></div><div class=\"col-12\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"><div class=\"invalid-feedback\"> Travel To field is mandatory. </div></div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback\"> Last Name field is mandatory. </div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback\"> Email field is mandatory. </div></div><div class=\"col-6\"><label for=\"phone\">Phone</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"><div class=\"invalid-feedback\"> Phone field is mandatory. </div></div></div><div class=\"form-group\"><label for=\"last_name\">Date of Birth</label><input name=\"dob\" type=\"date\" class=\"form-control\" id=\"dob\"><div class=\"invalid-feedback\"> This field is mandatory. </div></div>", 4);
 
 var _hoisted_13 = {
   key: 0
@@ -20296,7 +20297,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#intro {\r\n    padding-top: 12rem;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#intro {\r\n    padding: 2rem;\r\n    background-color: #1976d27c;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20344,7 +20345,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-enter-active {\r\n  transition: opacity 0.5s ease;\n}\n.v-enter-from,\r\n.v-leave-to {\r\n  opacity: 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#main {\r\n    padding-bottom: 2rem;\n}\n.v-enter-active {\r\n  transition: opacity 0.5s ease;\n}\n.v-enter-from,\r\n.v-leave-to {\r\n  opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38350,7 +38351,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=template&id=7fe514c6 */ "./resources/js/components/GroupInsurance.vue?vue&type=template&id=7fe514c6");
 /* harmony import */ var _GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=script&lang=js */ "./resources/js/components/GroupInsurance.vue?vue&type=script&lang=js");
 /* harmony import */ var _GroupInsurance_vue_vue_type_style_index_0_id_7fe514c6_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=style&index=0&id=7fe514c6&lang=css */ "./resources/js/components/GroupInsurance.vue?vue&type=style&index=0&id=7fe514c6&lang=css");
-/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -38358,7 +38359,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/GroupInsurance.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/GroupInsurance.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -38381,7 +38382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Intro.vue?vue&type=template&id=0648c911 */ "./resources/js/components/Intro.vue?vue&type=template&id=0648c911");
 /* harmony import */ var _Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Intro.vue?vue&type=script&lang=js */ "./resources/js/components/Intro.vue?vue&type=script&lang=js");
 /* harmony import */ var _Intro_vue_vue_type_style_index_0_id_0648c911_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Intro.vue?vue&type=style&index=0&id=0648c911&lang=css */ "./resources/js/components/Intro.vue?vue&type=style&index=0&id=0648c911&lang=css");
-/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -38389,7 +38390,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Intro.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Intro.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -38412,7 +38413,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=template&id=303691a9 */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9");
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=script&lang=js */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=script&lang=js");
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_style_index_0_id_303691a9_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css");
-/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -38420,7 +38421,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TravelInsuranceForm.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TravelInsuranceForm.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -38443,7 +38444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Welcome.vue?vue&type=template&id=51777872 */ "./resources/js/components/Welcome.vue?vue&type=template&id=51777872");
 /* harmony import */ var _Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Welcome.vue?vue&type=script&lang=js */ "./resources/js/components/Welcome.vue?vue&type=script&lang=js");
 /* harmony import */ var _Welcome_vue_vue_type_style_index_0_id_51777872_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Welcome.vue?vue&type=style&index=0&id=51777872&lang=css */ "./resources/js/components/Welcome.vue?vue&type=style&index=0&id=51777872&lang=css");
-/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -38451,7 +38452,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Welcome.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Welcome.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -38474,7 +38475,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navbar.vue?vue&type=template&id=11e733ca */ "./resources/js/components/navbar.vue?vue&type=template&id=11e733ca");
 /* harmony import */ var _navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navbar.vue?vue&type=script&lang=js */ "./resources/js/components/navbar.vue?vue&type=script&lang=js");
 /* harmony import */ var _navbar_vue_vue_type_style_index_0_id_11e733ca_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navbar.vue?vue&type=style&index=0&id=11e733ca&lang=css */ "./resources/js/components/navbar.vue?vue&type=style&index=0&id=11e733ca&lang=css");
-/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -38482,7 +38483,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/navbar.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/navbar.vue"]])
 /* hot reload */
 if (false) {}
 

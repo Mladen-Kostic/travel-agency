@@ -1,5 +1,5 @@
 <template>
-    <div id="intro">
+    <div id="intro" class="rounded">
         <div class="text-center">
             <img width="300" src="./assets/logo.png" alt="logo">
             <h1 class="text-center">Welcome to Paragraf Travel</h1>
@@ -22,8 +22,8 @@ export default {
 
 <style>
 #intro {
-    padding-top: 12rem;
+    padding: 2rem;
+    background-color: #1976d27c;
 }
-
 </style>
 

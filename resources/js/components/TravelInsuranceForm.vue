@@ -25,15 +25,15 @@
             <input v-if="group" type="hidden" name="group" value="1">
             <div class="form-group row">
                 <div class="row col-6">
-                    <div class="col-6">
-                        <label for="departure">Departure Date</label>
+                    <div class="col-12">
+                        <label for="departure">Departure&nbsp;Date</label>
                         <input name="departure" type="date" class="form-control" id="departure">
                         <div class="invalid-feedback">
                             Departure Date field is mandatory.
                         </div>
                     </div>
-                    <div class="col-6">
-                        <label for="return">Return Date</label>
+                    <div class="col-12">
+                        <label for="return">Return&nbsp;Date</label>
                         <input name="return" type="date" class="form-control" id="return">
                         <div class="invalid-feedback">
                             Return Date field is mandatory.
@@ -41,15 +41,15 @@
                     </div>
                 </div>
                 <div class="row col-6 ml-4">
-                    <div class="col-6">
-                        <label for="from">Travel From</label>
+                    <div class="col-12">
+                        <label for="from">Travel&nbsp;From</label>
                         <input name="from" type="text" class="form-control" id="from">
                         <div class="invalid-feedback">
                             Travel From field is mandatory.
                         </div>
                     </div>
-                    <div class="col-6">
-                        <label for="to">Travel To</label>
+                    <div class="col-12">
+                        <label for="to">Travel&nbsp;To</label>
                         <input name="to" type="text" class="form-control" id="to">
                         <div class="invalid-feedback">
                             Travel To field is mandatory.

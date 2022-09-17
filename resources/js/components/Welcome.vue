@@ -34,6 +34,10 @@ export default {
 </script>
 
 <style>
+#main {
+    padding-bottom: 2rem;
+}
+
 .v-enter-active {
   transition: opacity 0.5s ease;
 }
