@@ -1,6 +1,6 @@
 <template>
     <div id="travelInsurance">
-        <h1 class="mb-4">Travel Insurance</h1>
+        <h1 class="mb-4"><i class="fas fa-user-shield"></i> Travel Insurance</h1>
         <div id="toggle" class="pt-4">
             <h4 :class="[{'textOpacity': group}, d_inline_block]">Individual Insurance</h4>
 
@@ -13,7 +13,6 @@
         </div>
         
         <form id="travelInsuranceForm" @submit.prevent="makeInsurance">
-
             <div v-if="error" class="alert alert-danger" role="alert">
                 {{ this.message }}
             </div>
@@ -23,37 +22,40 @@
             </div>
 
             <input v-if="group" type="hidden" name="group" value="1">
-            <div class="form-group row">
-                <div class="row col-6">
+            <div class="form-group row ml-2">
+                <div class="row col-6 groupForm">
                     <div class="col-12">
                         <label for="departure">Departure&nbsp;Date</label>
-                        <input name="departure" type="date" class="form-control" id="departure">
-                        <div class="invalid-feedback">
-                            Departure Date field is mandatory.
-                        </div>
+                        <Datepicker
+                            v-model="departureDate"
+                            placeholder="Departure date"
+                            name="departure"
+                            id="departure"
+                            :minDate="departureStartDate"
+                        ></Datepicker>
                     </div>
                     <div class="col-12">
                         <label for="return">Return&nbsp;Date</label>
-                        <input name="return" type="date" class="form-control" id="return">
-                        <div class="invalid-feedback">
-                            Return Date field is mandatory.
-                        </div>
+                        <Datepicker
+                            v-model="returnDate"
+                            placeholder="Return date"
+                            name="return"
+                            id="return"
+                            :minDate="departureDate"
+                        ></Datepicker>
+                    </div>
+                    <div v-if="departureDate && returnDate" class="px-3">
+                        Total Travel Days: {{ getVacationLength }}
                     </div>
                 </div>
-                <div class="row col-6 ml-4">
+                <div class="row col-6 ml-4 groupForm">
                     <div class="col-12">
                         <label for="from">Travel&nbsp;From</label>
                         <input name="from" type="text" class="form-control" id="from">
-                        <div class="invalid-feedback">
-                            Travel From field is mandatory.
-                        </div>
                     </div>
                     <div class="col-12">
                         <label for="to">Travel&nbsp;To</label>
                         <input name="to" type="text" class="form-control" id="to">
-                        <div class="invalid-feedback">
-                            Travel To field is mandatory.
-                        </div>
                     </div>
                 </div>
             </div>
@@ -61,43 +63,31 @@
                 <div class="col-6">
                     <label for="first_name">First Name</label>
                     <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name">
-                    <div class="invalid-feedback">
-                        First Name field is mandatory.
-                    </div>
                 </div>
                 <div class="col-6">
                     <label for="last_name">Last Name</label>
                     <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name">
-                    <div class="invalid-feedback">
-                        Last Name field is mandatory.
-                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-6">
                     <label for="email">Email address</label>
                     <input name="email" type="text" class="form-control" id="email" placeholder="Email Address">
-                    <div class="invalid-feedback">
-                        Email field is mandatory.
-                    </div>
                 </div>
                 <div class="col-6">
                     <label for="phone">Phone</label>
                     <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone Number">
-                    <div class="invalid-feedback">
-                        Phone field is mandatory.
-                    </div>
                 </div>
             </div>
             
-            
-            
             <div class="form-group">
                 <label for="last_name">Date of Birth</label>
-                <input name="dob" type="date" class="form-control" id="dob">
-                <div class="invalid-feedback">
-                    This field is mandatory.
-                </div>
+                <Datepicker
+                    v-model="birthDate"
+                    placeholder="Date Of Birth"
+                    name="dob"
+                    :format="format"
+                ></Datepicker>
             </div>
             <Transition>
             <div v-if="group">
@@ -111,7 +101,7 @@
                         <a @click="removeItem(item)" class="btn btn-secondary trashBtn btn-block"><i class="fas fa-trash-alt"></i> Remove</a>
                     </div>
                 </div>
-
+                
                 <!-- <div v-if="groupInsuranceList.length" class="dropdown show row">
                     <a class="btn btn-secondary btn-block dropdown-toggle col-9" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Check List
@@ -143,13 +133,49 @@
 
 <script>
 import GroupInsurance from './GroupInsurance.vue';
+import { ref } from 'vue';
+
 export default {
+    setup() {
+        const date = ref(new Date());
+
+        const format = (date) => {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${year}-${month}-${day}`;
+        }
+
+        return {
+            date,
+            format,
+        }
+    },
     name: 'TravelInsuranceForm',
     components: {
-        GroupInsurance
+        GroupInsurance,
+        // Datepicker
+    },
+    computed: {
+        departureStartDate() {
+            const date = new Date();
+            date.setDate(date.getDate() + 1);
+
+            return date;
+        },
+        getVacationLength() {
+            const departureTs = this.departureDate.getTime();
+            const returnTs = this.returnDate.getTime();
+
+            return parseInt((returnTs - departureTs) / (24 * 3600 * 1000));
+        }
     },
     data() {
         return {
+            departureDate: null,
+            returnDate: null,
+            birthDate: null,
             individual: true,
             group: false,
             d_inline_block: 'd-inline-block',
@@ -183,21 +209,61 @@ export default {
 
             // document.querySelectorAll('#travelInsuranceForm input').forEach(input => console.log(input.value));
             document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
-                if (input.id.startsWith('group')) {
+                if (input.id.startsWith('group') || !input.name) {
                     return;
+                }
+                
+                if (!document.getElementsByName('departure')[0].value) {
+                    fieldEmpty = true;
+                    this.error = true;
+                    this.message = 'All Fields Are Mandatory';
+                }
+
+                if (!document.getElementsByName('return')[0].value) {
+                    fieldEmpty = true;
+                    this.error = true;
+                    this.message = 'All Fields Are Mandatory';
+                }
+
+                if (!document.getElementsByName('dob')[0].value) {
+                    fieldEmpty = true;
+                    this.error = true;
+                    this.message = 'All Fields Are Mandatory';
                 }
 
                 if (!input.value) {
                     fieldEmpty = true;
-                    input.classList.add('is-invalid');
-                    input.classList.remove('is-valid');
+                    this.error = true;
+                    this.message = 'All Fields Are Mandatory';
+                    // input.classList.add('is-invalid');
+                    // input.classList.remove('is-valid');
                 } else {
                     input.classList.add('is-valid');
-                    input.classList.remove('is-invalid');
+                    // input.classList.remove('is-invalid');
                 }
+
             });
 
+            // const test = document.getElementsByName('test')[0];
+
+            // if (!test.value) {
+
+            //     fieldEmpty = true;
+            //     test.classList.add('is-invalid');
+            //     test.classList.remove('is-valid');
+            //     console.log('empty')
+            // } else {
+            //     console.log('not empty');
+            //     test.classList.add('is-valid');
+            //     test.classList.remove('is-invalid');
+            // }
+
             if (!fieldEmpty) {
+                let dateOfBirth = new Date(this.birthDate);
+                let DD = String(dateOfBirth.getDate()).padStart(2, '0');
+                let MM = String(dateOfBirth.getMonth() + 1).padStart(2, '0');
+                let YYYY = dateOfBirth.getFullYear();
+                dateOfBirth = YYYY + '-' + MM + '-' + DD;
 
                 let formData = {
                     group: e.target.group ? e.target.group.value : 0,
@@ -205,12 +271,13 @@ export default {
                     last_name: e.target.last_name.value,
                     email: e.target.email.value,
                     phone: e.target.phone.value,
-                    dob: e.target.dob.value,
-                    departure: e.target.departure.value,
-                    return: e.target.return.value,
+                    dob: dateOfBirth,
+                    // dob: e.target.dob._value,
+                    departure: e.target.departure._value,
+                    return: e.target.return._value,
                     from: e.target.from.value,
                     to: e.target.to.value,
-                    groupInsuranceList: this.groupInsuranceList
+                    groupInsuranceList: this.groupInsuranceList,
                 };
 
                 if (this.isNumeric(formData.phone)) {
@@ -238,39 +305,40 @@ export default {
                     url: '/api/travel-insurance/store',
                     data: formData
                 })
-                    .then(res => {
+                    .then(res => console.log(res))
+                    // .then(res => {
                         
-                        if (res.data.error) {
-                            this.error = true;
-                            this.message = res.data.message;
+                    //     if (res.data.error) {
+                    //         this.error = true;
+                    //         this.message = res.data.message;
 
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
+                    //         setTimeout(function() {
+                    //             this.error = false;
+                    //             this.message = '';
 
-                                document.querySelector('.alert').remove();
-                            }, 5000);
+                    //             document.querySelector('.alert').remove();
+                    //         }, 5000);
                             
-                        }
+                    //     }
 
-                        if (res.data.success) {
-                            this.success = res.data.success;
-                            this.message = res.data.message;
+                    //     if (res.data.success) {
+                    //         this.success = res.data.success;
+                    //         this.message = res.data.message;
 
-                            document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
-                                input.value = '';
-                                input.classList.remove('is-valid');
-                            });
+                    //         document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
+                    //             input.value = '';
+                    //             input.classList.remove('is-valid');
+                    //         });
 
-                            setTimeout(function() {
-                                this.success = false;
-                                this.message = '';
+                    //         setTimeout(function() {
+                    //             this.success = false;
+                    //             this.message = '';
 
-                                document.querySelector('.alert').remove();
-                            }, 5000);
-                        }
+                    //             document.querySelector('.alert').remove();
+                    //         }, 5000);
+                    //     }
 
-                    })
+                    // })
                     .catch(error => console.log(error));
             }
 
@@ -367,5 +435,11 @@ input:checked + .slider:before {
 
 .groupInsuranceItem {
     border-top: 1px solid rgba(255, 255, 255, 0.295);
+}
+
+.groupForm {
+    border: 1px solid rgba(255, 255, 255, 0.295);
+    border-radius: 0.7rem;
+    padding: 1rem 0 1rem 0;
 }
 </style>

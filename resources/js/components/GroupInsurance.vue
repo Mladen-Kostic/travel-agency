@@ -13,7 +13,12 @@
                 </div>
                 <div class="form-group col-3">
                     <label for="group_dob">Date&nbsp;of&nbsp;Birth</label>
-                    <input v-model="dob" type="date" class="form-control" id="group_dob">
+                    <Datepicker
+                        v-model="dob"
+                        placeholder="Date Of Birth"
+                        :format="format"
+                        id="group_dob"
+                    ></Datepicker>
                 </div>
                 <div class="col-3 text-center">
                     <button class="btn btn-secondary addBtn btn-block"><i class="fas fa-plus-circle"></i> Add</button>
@@ -25,7 +30,26 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
+    setup() {
+        const date = ref(new Date());
+
+        const format = (date) => {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${year}-${month}-${day}`;
+        }
+
+        return {
+            date,
+            format,
+        }
+
+    },
     name: 'GroupInsurance',
     emits: ['addToGroupList'],
     data() {
@@ -78,10 +102,16 @@ export default {
             }
 
             if (!fieldEmpty) {
+                let dateOfBirth = new Date(this.dob);
+                let DD = String(dateOfBirth.getDate()).padStart(2, '0');
+                let MM = String(dateOfBirth.getMonth() + 1).padStart(2, '0');
+                let YYYY = dateOfBirth.getFullYear();
+                dateOfBirth = YYYY + '-' + MM + '-' + DD;
+
                 this.$emit('addToGroupList', {
                     first_name: this.firstName,
                     last_name: this.lastName,
-                    dob: this.dob
+                    dob: dateOfBirth
                 });
 
                 this.firstName = '';
