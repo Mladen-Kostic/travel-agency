@@ -19488,7 +19488,7 @@ __webpack_require__.r(__webpack_exports__);
       var day = date.getDate();
       var month = date.getMonth() + 1;
       var year = date.getFullYear();
-      return "".concat(year, "-").concat(month, "-").concat(day);
+      return "".concat(day, ".").concat(month, ".").concat(year);
     };
 
     return {
@@ -19537,12 +19537,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.dob) {
-        document.querySelector('#group_dob').classList.add('is-valid');
-        document.querySelector('#group_dob').classList.remove('is-invalid');
+        document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.add('is-valid');
+        document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-invalid-alt');
       } else {
         fieldEmpty = true;
-        document.querySelector('#group_dob').classList.add('is-invalid');
-        document.querySelector('#group_dob').classList.remove('is-valid');
+        document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.add('is-invalid-alt');
+        document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-valid');
       }
 
       if (!fieldEmpty) {
@@ -19561,7 +19561,7 @@ __webpack_require__.r(__webpack_exports__);
         this.dob = '';
         document.querySelector('#group_first_name').classList.remove('is-valid');
         document.querySelector('#group_last_name').classList.remove('is-valid');
-        document.querySelector('#group_dob').classList.remove('is-valid');
+        document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-valid');
       }
     }
   }
@@ -19592,6 +19592,97 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      success: false,
+      error: false,
+      message: '',
+      invalidDob: false,
+      birthDate: null,
+      pictureError: false
+    };
+  },
+  methods: {
+    showFileName: function showFileName(e) {
+      var fileName = document.getElementById('profile_picture').files[0].name;
+      var nextSibling = e.target.nextElementSibling;
+      nextSibling.innerText = fileName;
+    },
+    registerUser: function registerUser(e) {
+      var fieldEmpty = false;
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      document.querySelectorAll('#registerForm input').forEach(function (input) {
+        if (input.id === 'profile_picture') {
+          return;
+        } // if (!document.getElementsByName('departure')[0].value) {
+        //     fieldEmpty = true;
+        //     this.invalidDeparture = true;
+        // } else {
+        //     this.invalidDeparture = false;
+        //     input.classList.add('is-valid');
+        // }
+
+
+        if (!input.value) {
+          fieldEmpty = true;
+          input.classList.add('is-invalid');
+          input.classList.remove('is-valid');
+        } else {
+          input.classList.add('is-valid');
+          input.classList.remove('is-invalid');
+        }
+      });
+
+      if (!fieldEmpty) {
+        var formData = {
+          first_name: e.target.first_name.value,
+          last_name: e.target.last_name.value,
+          email: e.target.email.value,
+          password: e.target.password.value,
+          profile_picture: e.target.profile_picture.value,
+          status: e.target.status.value
+        };
+
+        if (filter.test(formData.email)) {
+          document.querySelector('#email').classList.remove('is-invalid');
+        } else {
+          document.querySelector('#email').classList.add('is-invalid');
+          document.querySelector('#email').nextSibling.innerText = 'This field has to be valid email.';
+          return;
+        }
+
+        if (formData.profile_picture) {
+          var pictureExtension = formData.profile_picture.substring(formData.profile_picture.lastIndexOf('.') + 1).toLowerCase();
+
+          if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
+            this.pictureError = false;
+            document.querySelector('#profile_picture').classList.add('is-valid');
+            document.querySelector('#profile_picture').classList.remove('is-invalid');
+          } else {
+            this.pictureError = true;
+            document.querySelector('#profile_picture').classList.add('is-invalid');
+            return;
+          }
+        }
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=script&lang=js ***!
@@ -19615,12 +19706,22 @@ __webpack_require__.r(__webpack_exports__);
       var day = date.getDate();
       var month = date.getMonth() + 1;
       var year = date.getFullYear();
-      return "".concat(year, "-").concat(month, "-").concat(day);
+      return "".concat(day, ".").concat(month, ".").concat(year);
+    };
+
+    var formatTime = function formatTime(date) {
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+      var h = date.getHours();
+      var m = date.getMinutes();
+      return "".concat(day, ".").concat(month, ".").concat(year, " ").concat(h, ":").concat(m);
     };
 
     return {
       date: date,
-      format: format
+      format: format,
+      formatTime: formatTime
     };
   },
   name: 'TravelInsuranceForm',
@@ -19652,7 +19753,10 @@ __webpack_require__.r(__webpack_exports__);
       isInvalid: '',
       error: false,
       success: false,
-      message: ''
+      message: '',
+      invalidDeparture: false,
+      invalidReturn: false,
+      invalidDob: false
     };
   },
   methods: {
@@ -19678,7 +19782,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var fieldEmpty = false;
-      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; // document.querySelectorAll('#travelInsuranceForm input').forEach(input => console.log(input.value));
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; // let invalidFeedback = document.createElement('div');
+      // invalidFeedback.classList.add('invalid-feedback-alt');
+      // invalidFeedback.innerText = 'This field is mandatory.';
+      // document.getElementsByName('departure')[0].classList.add('is-invalid');
+      // let dateElements = document.querySelectorAll('.dp__input_wrap');
+      // document.querySelectorAll('#travelInsuranceForm input').forEach(input => console.log(input.value));
 
       document.querySelectorAll('#travelInsuranceForm input').forEach(function (input) {
         if (input.id.startsWith('group') || !input.name) {
@@ -19687,41 +19796,37 @@ __webpack_require__.r(__webpack_exports__);
 
         if (!document.getElementsByName('departure')[0].value) {
           fieldEmpty = true;
-          _this.error = true;
-          _this.message = 'All Fields Are Mandatory';
+          _this.invalidDeparture = true;
+        } else {
+          _this.invalidDeparture = false;
+          input.classList.add('is-valid');
         }
 
         if (!document.getElementsByName('return')[0].value) {
           fieldEmpty = true;
-          _this.error = true;
-          _this.message = 'All Fields Are Mandatory';
+          _this.invalidReturn = true;
+        } else {
+          _this.invalidReturn = false;
+          input.classList.add('is-valid-alt');
         }
 
         if (!document.getElementsByName('dob')[0].value) {
           fieldEmpty = true;
-          _this.error = true;
-          _this.message = 'All Fields Are Mandatory';
+          _this.invalidDob = true;
+        } else {
+          _this.invalidDob = false;
+          input.classList.add('is-valid');
         }
 
         if (!input.value) {
           fieldEmpty = true;
-          _this.error = true;
-          _this.message = 'All Fields Are Mandatory'; // input.classList.add('is-invalid');
-          // input.classList.remove('is-valid');
+          input.classList.add('is-invalid');
+          input.classList.remove('is-valid');
         } else {
-          input.classList.add('is-valid'); // input.classList.remove('is-invalid');
+          input.classList.add('is-valid');
+          input.classList.remove('is-invalid');
         }
-      }); // const test = document.getElementsByName('test')[0];
-      // if (!test.value) {
-      //     fieldEmpty = true;
-      //     test.classList.add('is-invalid');
-      //     test.classList.remove('is-valid');
-      //     console.log('empty')
-      // } else {
-      //     console.log('not empty');
-      //     test.classList.add('is-valid');
-      //     test.classList.remove('is-invalid');
-      // }
+      });
 
       if (!fieldEmpty) {
         var dateOfBirth = new Date(this.birthDate);
@@ -19769,32 +19874,30 @@ __webpack_require__.r(__webpack_exports__);
           url: '/api/travel-insurance/store',
           data: formData
         }).then(function (res) {
-          return console.log(res);
-        }) // .then(res => {
-        //     if (res.data.error) {
-        //         this.error = true;
-        //         this.message = res.data.message;
-        //         setTimeout(function() {
-        //             this.error = false;
-        //             this.message = '';
-        //             document.querySelector('.alert').remove();
-        //         }, 5000);
-        //     }
-        //     if (res.data.success) {
-        //         this.success = res.data.success;
-        //         this.message = res.data.message;
-        //         document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
-        //             input.value = '';
-        //             input.classList.remove('is-valid');
-        //         });
-        //         setTimeout(function() {
-        //             this.success = false;
-        //             this.message = '';
-        //             document.querySelector('.alert').remove();
-        //         }, 5000);
-        //     }
-        // })
-        ["catch"](function (error) {
+          if (res.data.error) {
+            _this.error = true;
+            _this.message = res.data.message;
+            setTimeout(function () {
+              this.error = false;
+              this.message = '';
+              document.querySelector('.alert').remove();
+            }, 5000);
+          }
+
+          if (res.data.success) {
+            _this.success = res.data.success;
+            _this.message = res.data.message;
+            document.querySelectorAll('#travelInsuranceForm input').forEach(function (input) {
+              input.value = '';
+              input.classList.remove('is-valid');
+            });
+            setTimeout(function () {
+              this.success = false;
+              this.message = '';
+              document.querySelector('.alert').remove();
+            }, 5000);
+          }
+        })["catch"](function (error) {
           return console.log(error);
         });
       }
@@ -19818,6 +19921,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navbar.vue */ "./resources/js/components/navbar.vue");
 /* harmony import */ var _TravelInsuranceForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TravelInsuranceForm.vue */ "./resources/js/components/TravelInsuranceForm.vue");
 /* harmony import */ var _Intro_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Intro.vue */ "./resources/js/components/Intro.vue");
+/* harmony import */ var _Register_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Register.vue */ "./resources/js/components/Register.vue");
+
 
 
 
@@ -19825,7 +19930,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     navbar: _navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     TravelInsuranceForm: _TravelInsuranceForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Intro: _Intro_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Intro: _Intro_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Register: _Register_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
@@ -19852,15 +19958,25 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       travelInsuranceNav: true,
-      nav_linkNav: true
+      nav_linkNav: true,
+      activeObj: {
+        TravelInsuranceForm: false,
+        Register: false
+      }
     };
   },
   methods: {
-    TravelInsuranceForm: function TravelInsuranceForm() {
-      this.$emit('activeTabEvent', 'TravelInsuranceForm');
-    },
-    Intro: function Intro() {
-      this.$emit('activeTabEvent', 'Intro');
+    mainPageComp: function mainPageComp(comp) {
+      var _this = this;
+
+      this.$emit('activeTabEvent', comp);
+      Object.keys(this.activeObj).forEach(function (key) {
+        if (key == comp) {
+          _this.activeObj[key] = true;
+        } else {
+          _this.activeObj[key] = false;
+        }
+      });
     }
   }
 });
@@ -19912,7 +20028,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_8 = {
-  "class": "form-group col-3"
+  "class": "form-group col-3 groupDob"
 };
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
@@ -20014,6 +20130,104 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=template&id=97358ae4":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=template&id=97358ae4 ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  "class": "mb-4"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-user-plus"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register")], -1
+/* HOISTED */
+);
+
+var _hoisted_2 = {
+  key: 0,
+  "class": "alert alert-danger",
+  role: "alert"
+};
+var _hoisted_3 = {
+  key: 1,
+  "class": "alert alert-success",
+  role: "alert"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback text-right\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback text-right\"> Last Name field is mandatory. </div></div></div><div class=\"form-group\"><label for=\"email\">Email Address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback text-right\"> Email Addres field is mandatory. </div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"password\">Password</label><input name=\"password\" type=\"password\" class=\"form-control\" id=\"password\" placeholder=\"Enter Password\"><div class=\"invalid-feedback text-right\"> Password field is mandatory. </div></div><div class=\"col-6\"><label for=\"confirm\">Confirm Password</label><input name=\"confirm\" type=\"password\" class=\"form-control\" id=\"confirm\" placeholder=\"Confirm Password\"><div class=\"invalid-feedback text-right\"> Confirm Password field is mandatory. </div></div></div>", 3);
+
+var _hoisted_7 = {
+  "class": "form-group row"
+};
+var _hoisted_8 = {
+  "class": "col-6"
+};
+var _hoisted_9 = {
+  "class": "custom-file"
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "custom-file-label",
+  "for": "profile_picture"
+}, "Choose picture (Optional)", -1
+/* HOISTED */
+);
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_12 = {
+  key: 0,
+  "class": "text-right pictureError"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-6\"><label for=\"Status\">Status</label><input name=\"status\" type=\"text\" class=\"form-control\" id=\"status\" placeholder=\"Enter User Status\"><div class=\"form-group\"><label for=\"exampleSelect\">Example select</label><select class=\"form-control\" id=\"exampleSelect\"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div class=\"invalid-feedback text-right\"> Status field is mandatory. </div></div>", 1);
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "submit",
+  "class": "btn btn-primary"
+}, "Register", -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form id=\"travelInsuranceForm\" @submit.prevent=\"makeInsurance\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    id: "registerForm",
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.registerUser && $options.registerUser.apply($options, arguments);
+    }, ["prevent"])),
+    enctype: "multipart/form-data"
+  }, [$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    onChange: _cache[0] || (_cache[0] = function () {
+      return $options.showFileName && $options.showFileName.apply($options, arguments);
+    }),
+    type: "file",
+    name: "profile_picture",
+    "class": "custom-file-input",
+    id: "profile_picture"
+  }, null, 32
+  /* HYDRATE_EVENTS */
+  ), _hoisted_10, _hoisted_11, $data.pictureError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, " Photo only allows file types of PNG, JPG, JPEG and SVG. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_13]), _hoisted_14], 32
+  /* HYDRATE_EVENTS */
+  )]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9 ***!
@@ -20086,62 +20300,74 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_13 = {
+  key: 0,
+  "class": "invalid-feedback-alt text-right"
+};
+var _hoisted_14 = {
   "class": "col-12"
 };
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "return"
 }, "Return Date", -1
 /* HOISTED */
 );
 
-var _hoisted_15 = {
+var _hoisted_16 = {
+  key: 0,
+  "class": "invalid-feedback-alt text-right"
+};
+var _hoisted_17 = {
   key: 0,
   "class": "px-3"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row col-6 ml-4 groupForm\"><div class=\"col-12\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"></div><div class=\"col-12\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"></div></div>", 1);
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row col-6 ml-4 groupForm\"><div class=\"col-12\"><label for=\"from\">Travel From</label><input name=\"from\" type=\"text\" class=\"form-control\" id=\"from\"><div class=\"invalid-feedback text-right\"> Travel From field is mandatory. </div></div><div class=\"col-12\"><label for=\"to\">Travel To</label><input name=\"to\" type=\"text\" class=\"form-control\" id=\"to\"><div class=\"invalid-feedback text-right\"> Travel To field is mandatory. </div></div></div>", 1);
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"></div><div class=\"col-6\"><label for=\"phone\">Phone</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"></div></div>", 2);
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"col-6\"><label for=\"first_name\">First Name</label><input name=\"first_name\" type=\"text\" class=\"form-control\" id=\"first_name\" placeholder=\"First Name\"><div class=\"invalid-feedback text-right\"> First Name field is mandatory. </div></div><div class=\"col-6\"><label for=\"last_name\">Last Name</label><input name=\"last_name\" type=\"text\" class=\"form-control\" id=\"last_name\" placeholder=\"Last Name\"><div class=\"invalid-feedback text-right\"> Last Name field is mandatory. </div></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email Address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback text-right\"> Email Addres field is mandatory. </div></div><div class=\"col-6\"><label for=\"phone\">Phone Number</label><input name=\"phone\" type=\"text\" class=\"form-control\" id=\"phone\" placeholder=\"Phone Number\"><div class=\"invalid-feedback text-right\"> Phone Number field is mandatory. </div></div></div>", 2);
 
-var _hoisted_19 = {
+var _hoisted_21 = {
   "class": "form-group"
 };
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "last_name"
 }, "Date of Birth", -1
 /* HOISTED */
 );
 
-var _hoisted_21 = {
-  key: 0
-};
-var _hoisted_22 = {
-  "class": "col-3"
-};
 var _hoisted_23 = {
-  "class": "col-3"
+  key: 0,
+  "class": "invalid-feedback-alt text-right"
 };
 var _hoisted_24 = {
-  "class": "col-3"
+  key: 0
 };
 var _hoisted_25 = {
   "class": "col-3"
 };
-var _hoisted_26 = ["onClick"];
+var _hoisted_26 = {
+  "class": "col-3"
+};
+var _hoisted_27 = {
+  "class": "col-3"
+};
+var _hoisted_28 = {
+  "class": "col-3"
+};
+var _hoisted_29 = ["onClick"];
 
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-trash-alt"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove");
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Remove");
 
-var _hoisted_29 = [_hoisted_27, _hoisted_28];
+var _hoisted_32 = [_hoisted_30, _hoisted_31];
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit",
   "class": "btn btn-primary"
 }, "Get Insurance", -1
@@ -20189,10 +20415,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Departure date",
     name: "departure",
     id: "departure",
-    minDate: $options.departureStartDate
+    minDate: $options.departureStartDate,
+    format: $setup.formatTime
   }, null, 8
   /* PROPS */
-  , ["modelValue", "minDate"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datepicker, {
+  , ["modelValue", "minDate", "format"]), $data.invalidDeparture ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, " Departure date is mandatory. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datepicker, {
     modelValue: $data.returnDate,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.returnDate = $event;
@@ -20200,12 +20427,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Return date",
     name: "return",
     id: "return",
-    minDate: $data.departureDate
+    minDate: $data.departureDate,
+    format: $setup.formatTime
   }, null, 8
   /* PROPS */
-  , ["modelValue", "minDate"])]), $data.departureDate && $data.returnDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, " Total Travel Days: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getVacationLength), 1
+  , ["modelValue", "minDate", "format"]), $data.invalidReturn ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, " Return date is mandatory. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.departureDate && $data.returnDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, " Total Travel Days: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getVacationLength), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_16]), _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datepicker, {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_18]), _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datepicker, {
     modelValue: $data.birthDate,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.birthDate = $event;
@@ -20215,9 +20443,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     format: $setup.format
   }, null, 8
   /* PROPS */
-  , ["modelValue", "format"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, null, {
+  , ["modelValue", "format"]), $data.invalidDob ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, " Date of Birth field is mandatory. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_GroupInsurance, {
+      return [$data.group ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_GroupInsurance, {
         onAddToGroupList: _cache[4] || (_cache[4] = function (obj) {
           return $data.groupInsuranceList.push(obj);
         })
@@ -20225,20 +20453,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: item.id,
           "class": "form-group row groupInsuranceItem"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.first_name), 1
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.first_name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.last_name), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.last_name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.dob), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.dob), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
           onClick: function onClick($event) {
             return $options.removeItem(item);
           },
           "class": "btn btn-secondary trashBtn btn-block"
-        }, _hoisted_29, 8
+        }, _hoisted_32, 8
         /* PROPS */
-        , _hoisted_26)])]);
+        , _hoisted_29)])]);
       }), 128
       /* KEYED_FRAGMENT */
       )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"groupInsuranceList.length\" class=\"dropdown show row\">\r\n                    <a class=\"btn btn-secondary btn-block dropdown-toggle col-9\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\r\n                        Check List\r\n                    </a>\r\n                    <div class=\"col-3\">\r\n                        <a @click=\"removeItem(item)\" class=\"btn btn-secondary trashBtn btn-block\"><i class=\"fas fa-trash-alt\"></i> Remove All</a>\r\n                    </div>\r\n\r\n                    <div class=\"dropdown-menu col-9 p-2\" aria-labelledby=\"dropdownMenuLink\">\r\n                        <div v-for=\"item in groupInsuranceList\" :key=\"item.id\" class=\"form-group row\">\r\n                            <div class=\"col-3\">{{ item.first_name }}</div>\r\n                            <div class=\"col-3\">{{ item.last_name }}</div>\r\n                            <div class=\"col-3\">{{ item.dob }}</div>\r\n                            <div class=\"col-3\">\r\n                                <a @click=\"removeItem(item)\" class=\"btn btn-primary trashBtn btn-block text-white\"><i class=\"fas fa-trash-alt\"></i> Remove</a>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
@@ -20246,7 +20474,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), _hoisted_30], 32
+  }), _hoisted_33], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -20356,23 +20584,46 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Travel Insurance");
 
 var _hoisted_11 = [_hoisted_9, _hoisted_10];
+var _hoisted_12 = {
+  "class": "nav-item"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-user-plus"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register");
+
+var _hoisted_15 = [_hoisted_13, _hoisted_14];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "navbar-brand",
-    onClick: _cache[0] || (_cache[0] = function () {
-      return _this.Intro && _this.Intro.apply(_this, arguments);
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _this.mainPageComp('Intro');
     })
   }, _hoisted_4), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-      'active': $data.travelInsuranceNav,
+      'active': $data.activeObj.TravelInsuranceForm,
       'nav-link': $data.nav_linkNav
     }),
-    onClick: _cache[1] || (_cache[1] = function () {
-      return _this.TravelInsuranceForm && _this.TravelInsuranceForm.apply(_this, arguments);
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _this.mainPageComp('TravelInsuranceForm');
     })
   }, _hoisted_11, 2
+  /* CLASS */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+      'active': $data.activeObj.Register,
+      'nav-link': $data.nav_linkNav
+    }),
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _this.mainPageComp('Register');
+    })
+  }, _hoisted_15, 2
   /* CLASS */
   )])])])])]);
 }
@@ -20476,7 +20727,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#groupInsurance {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.addBtn {\r\n    margin-top: 1.95rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#groupInsurance {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.addBtn {\r\n    margin-top: 1.95rem;\n}\n.dp__pointer.is-invalid-alt {\r\n    border: 1px solid red;\n}\n.invalid-feedback-alt{\r\n    display: block;\r\n    width: 100%;\r\n    margin-top: 0.25rem;\r\n    font-size: 80%;\r\n    color: #fff;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20507,6 +20758,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n#intro {\r\n    padding: 2rem;\r\n  
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nlabel.custom-file-label {\r\n    margin-top: 2rem;\n}\n#registerForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem;\r\n    border-radius: 2%;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.pictureError {\r\n    margin-top: 2.5rem;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css ***!
@@ -20524,7 +20799,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#toggle {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n  bottom: 7px\n}\r\n\r\n/* Hide default HTML checkbox */\n.switch input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\n}\r\n\r\n/* The slider */\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  transition: .4s;\n}\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: #fff;\r\n  transition: .4s;\n}\ninput:checked + .slider {\r\n  background-color: #2196F3;\n}\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\n}\ninput:checked + .slider:before {\r\n  transform: translateX(26px);\n}\r\n\r\n/* Rounded sliders */\n.slider.round {\r\n  border-radius: 34px;\n}\n.slider.round:before {\r\n  border-radius: 50%;\n}\n.textOpacity {\r\n    opacity: 0.6;\n}\n#travelInsuranceForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem;\r\n    border-radius: 2%;\n}\n.trashBtn {\r\n    cursor: pointer;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.groupInsuranceItem {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.groupForm {\r\n    border: 1px solid rgba(255, 255, 255, 0.295);\r\n    border-radius: 0.7rem;\r\n    padding: 1rem 0 1rem 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#toggle {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n  bottom: 7px\n}\r\n\r\n/* Hide default HTML checkbox */\n.switch input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\n}\r\n\r\n/* The slider */\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  transition: .4s;\n}\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: #fff;\r\n  transition: .4s;\n}\ninput:checked + .slider {\r\n  background-color: #2196F3;\n}\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\n}\ninput:checked + .slider:before {\r\n  transform: translateX(26px);\n}\r\n\r\n/* Rounded sliders */\n.slider.round {\r\n  border-radius: 34px;\n}\n.slider.round:before {\r\n  border-radius: 50%;\n}\n.textOpacity {\r\n    opacity: 0.6;\n}\n#travelInsuranceForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem;\r\n    border-radius: 2%;\n}\n.trashBtn {\r\n    cursor: pointer;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.groupInsuranceItem {\r\n    border-top: 1px solid rgba(255, 255, 255, 0.295);\n}\n.groupForm {\r\n    border: 1px solid rgba(255, 255, 255, 0.295);\r\n    border-radius: 0.7rem;\r\n    padding: 1rem 0 1rem 0;\n}\n.dp__pointer.is-invalid {\r\n    border: 1px solid red;\n}\n.dp__pointer.is-valid {\r\n    border-color: #28a745;\r\n    padding-right: calc(1.5em + 0.75rem);\r\n    /* background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e); */\r\n    background-repeat: no-repeat;\r\n    background-position: center right calc(0.375em + 0.1875rem);\r\n    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);\n}\n.invalid-feedback-alt{\r\n    display: block;\r\n    width: 100%;\r\n    margin-top: 0.25rem;\r\n    font-size: 80%;\r\n    color: #fff;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -48225,6 +48500,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_style_index_0_id_97358ae4_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Register.vue?vue&type=style&index=0&id=97358ae4&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_style_index_0_id_97358ae4_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_style_index_0_id_97358ae4_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css ***!
@@ -48630,7 +48935,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=template&id=7fe514c6 */ "./resources/js/components/GroupInsurance.vue?vue&type=template&id=7fe514c6");
 /* harmony import */ var _GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=script&lang=js */ "./resources/js/components/GroupInsurance.vue?vue&type=script&lang=js");
 /* harmony import */ var _GroupInsurance_vue_vue_type_style_index_0_id_7fe514c6_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GroupInsurance.vue?vue&type=style&index=0&id=7fe514c6&lang=css */ "./resources/js/components/GroupInsurance.vue?vue&type=style&index=0&id=7fe514c6&lang=css");
-/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -48638,7 +48943,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/GroupInsurance.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_GroupInsurance_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_GroupInsurance_vue_vue_type_template_id_7fe514c6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/GroupInsurance.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -48661,7 +48966,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Intro.vue?vue&type=template&id=0648c911 */ "./resources/js/components/Intro.vue?vue&type=template&id=0648c911");
 /* harmony import */ var _Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Intro.vue?vue&type=script&lang=js */ "./resources/js/components/Intro.vue?vue&type=script&lang=js");
 /* harmony import */ var _Intro_vue_vue_type_style_index_0_id_0648c911_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Intro.vue?vue&type=style&index=0&id=0648c911&lang=css */ "./resources/js/components/Intro.vue?vue&type=style&index=0&id=0648c911&lang=css");
-/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -48669,7 +48974,38 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Intro.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Intro_vue_vue_type_template_id_0648c911__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Intro.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/Register.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Register.vue ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Register_vue_vue_type_template_id_97358ae4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Register.vue?vue&type=template&id=97358ae4 */ "./resources/js/components/Register.vue?vue&type=template&id=97358ae4");
+/* harmony import */ var _Register_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Register.vue?vue&type=script&lang=js */ "./resources/js/components/Register.vue?vue&type=script&lang=js");
+/* harmony import */ var _Register_vue_vue_type_style_index_0_id_97358ae4_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Register.vue?vue&type=style&index=0&id=97358ae4&lang=css */ "./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Register_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Register_vue_vue_type_template_id_97358ae4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Register.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -48692,7 +49028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=template&id=303691a9 */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9");
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=script&lang=js */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=script&lang=js");
 /* harmony import */ var _TravelInsuranceForm_vue_vue_type_style_index_0_id_303691a9_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css */ "./resources/js/components/TravelInsuranceForm.vue?vue&type=style&index=0&id=303691a9&lang=css");
-/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -48700,7 +49036,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TravelInsuranceForm.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_TravelInsuranceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TravelInsuranceForm_vue_vue_type_template_id_303691a9__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TravelInsuranceForm.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -48723,7 +49059,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Welcome.vue?vue&type=template&id=51777872 */ "./resources/js/components/Welcome.vue?vue&type=template&id=51777872");
 /* harmony import */ var _Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Welcome.vue?vue&type=script&lang=js */ "./resources/js/components/Welcome.vue?vue&type=script&lang=js");
 /* harmony import */ var _Welcome_vue_vue_type_style_index_0_id_51777872_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Welcome.vue?vue&type=style&index=0&id=51777872&lang=css */ "./resources/js/components/Welcome.vue?vue&type=style&index=0&id=51777872&lang=css");
-/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -48731,7 +49067,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Welcome.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Welcome_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Welcome_vue_vue_type_template_id_51777872__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Welcome.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -48754,7 +49090,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navbar.vue?vue&type=template&id=11e733ca */ "./resources/js/components/navbar.vue?vue&type=template&id=11e733ca");
 /* harmony import */ var _navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navbar.vue?vue&type=script&lang=js */ "./resources/js/components/navbar.vue?vue&type=script&lang=js");
 /* harmony import */ var _navbar_vue_vue_type_style_index_0_id_11e733ca_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navbar.vue?vue&type=style&index=0&id=11e733ca&lang=css */ "./resources/js/components/navbar.vue?vue&type=style&index=0&id=11e733ca&lang=css");
-/* harmony import */ var C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -48762,7 +49098,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_Mladen_Desktop_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/navbar.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_mladen_kostic_Documents_GitHub_travel_agency_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_navbar_vue_vue_type_template_id_11e733ca__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/navbar.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -48799,6 +49135,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Intro_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Intro.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/Register.vue?vue&type=script&lang=js":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/Register.vue?vue&type=script&lang=js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Register.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -48883,6 +49235,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Register.vue?vue&type=template&id=97358ae4":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/Register.vue?vue&type=template&id=97358ae4 ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_template_id_97358ae4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_template_id_97358ae4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Register.vue?vue&type=template&id=97358ae4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=template&id=97358ae4");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/TravelInsuranceForm.vue?vue&type=template&id=303691a9 ***!
@@ -48953,6 +49321,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Intro_vue_vue_type_style_index_0_id_0648c911_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Intro.vue?vue&type=style&index=0&id=0648c911&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro.vue?vue&type=style&index=0&id=0648c911&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_style_index_0_id_97358ae4_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Register.vue?vue&type=style&index=0&id=97358ae4&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Register.vue?vue&type=style&index=0&id=97358ae4&lang=css");
 
 
 /***/ }),

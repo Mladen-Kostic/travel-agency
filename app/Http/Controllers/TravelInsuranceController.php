@@ -37,7 +37,7 @@ class TravelInsuranceController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+
         $validator = Validator::make($request->all(), [
             'departure' => 'required',
             'return' => 'required',

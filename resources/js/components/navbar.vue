@@ -2,7 +2,7 @@
     <div id="main">
 
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" @click="this.Intro"><img src="./assets/logo.png" alt="logo"></a>
+            <a class="navbar-brand" @click="this.mainPageComp('Intro')"><img src="./assets/logo.png" alt="logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -11,7 +11,11 @@
                 <ul class="navbar-nav ml-4">
                         
                     <li class="nav-item">
-                        <a :class="{'active': travelInsuranceNav, 'nav-link': nav_linkNav}" @click="this.TravelInsuranceForm"><i class="fas fa-user-shield"></i> Travel Insurance</a>
+                        <a :class="{'active': activeObj.TravelInsuranceForm, 'nav-link': nav_linkNav}" @click="this.mainPageComp('TravelInsuranceForm')"><i class="fas fa-user-shield"></i> Travel Insurance</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a :class="{'active': activeObj.Register, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Register')"><i class="fas fa-user-plus"></i> Register</a>
                     </li>
 
                 </ul>
@@ -27,15 +31,26 @@ export default {
     data() {
         return {
             travelInsuranceNav: true,
-            nav_linkNav: true
+            nav_linkNav: true,
+            activeObj: {
+                TravelInsuranceForm: false,
+                Register: false
+            }
         }
     },
     methods: {
-        TravelInsuranceForm() {
-            this.$emit('activeTabEvent', 'TravelInsuranceForm');
-        },
-        Intro() {
-            this.$emit('activeTabEvent', 'Intro');
+        mainPageComp(comp) {
+            this.$emit('activeTabEvent', comp);
+
+            Object.keys(this.activeObj).forEach((key) => {
+                if (key == comp) {
+                    this.activeObj[key] = true;
+
+                } else {
+                    this.activeObj[key] = false;
+                }
+            });
+
         }
     }
 }

@@ -18,12 +18,14 @@
 import navbar from './navbar.vue';
 import TravelInsuranceForm from './TravelInsuranceForm.vue';
 import Intro from './Intro.vue';
+import Register from './Register.vue';
 
 export default {
     components: {
         navbar,
         TravelInsuranceForm,
-        Intro
+        Intro,
+        Register
     },
     data() {
         return {

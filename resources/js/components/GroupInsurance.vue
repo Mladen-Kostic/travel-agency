@@ -11,7 +11,7 @@
                     <label for="group_last_name">Last&nbsp;Name</label>
                     <input v-model="lastName" class="form-control" id="group_last_name" placeholder="Last Name">
                 </div>
-                <div class="form-group col-3">
+                <div class="form-group col-3 groupDob">
                     <label for="group_dob">Date&nbsp;of&nbsp;Birth</label>
                     <Datepicker
                         v-model="dob"
@@ -41,7 +41,7 @@ export default {
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
 
-            return `${year}-${month}-${day}`;
+            return `${day}.${month}.${year}`;
         }
 
         return {
@@ -93,12 +93,12 @@ export default {
             }
 
             if (this.dob) {
-                document.querySelector('#group_dob').classList.add('is-valid');
-                document.querySelector('#group_dob').classList.remove('is-invalid');
+                document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.add('is-valid');
+                document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-invalid-alt');
             } else {
                 fieldEmpty = true;
-                document.querySelector('#group_dob').classList.add('is-invalid');
-                document.querySelector('#group_dob').classList.remove('is-valid');
+                document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.add('is-invalid-alt');
+                document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-valid');
             }
 
             if (!fieldEmpty) {
@@ -120,7 +120,7 @@ export default {
                 
                 document.querySelector('#group_first_name').classList.remove('is-valid');
                 document.querySelector('#group_last_name').classList.remove('is-valid');
-                document.querySelector('#group_dob').classList.remove('is-valid');
+                document.querySelector('.groupDob').lastChild.firstChild.lastChild.children[0].classList.remove('is-valid');
             }
         }
     }
@@ -135,5 +135,17 @@ export default {
 .addBtn {
     margin-top: 1.95rem;
 }
+
+.dp__pointer.is-invalid-alt {
+    border: 1px solid red;
+}
+
+.invalid-feedback-alt{
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #fff;
+ }
 </style>
 
