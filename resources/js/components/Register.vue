@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <label for="confirm">Confirm Password</label>
+                    <label for="confirm">Confirm&nbsp;Password</label>
                     <input name="confirm" type="password" class="form-control" id="confirm" placeholder="Confirm Password">
                     <div class="invalid-feedback text-right">
                         Confirm Password field is mandatory.
@@ -64,16 +64,12 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <label for="Status">Status</label>
-                    <input name="status" type="text" class="form-control" id="status" placeholder="Enter User Status">
                     <div class="form-group">
-                        <label for="exampleSelect">Example select</label>
-                        <select class="form-control" id="exampleSelect">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <label for="status">Status</label>
+                        <select name="status" class="form-control" id="status">
+                            <option value="user" selected>User (default)</option>
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Super Admin</option>
                         </select>
                     </div>
                     <div class="invalid-feedback text-right">
@@ -116,14 +112,6 @@ export default {
                 if (input.id === 'profile_picture') {
                     return;
                 }
-                // if (!document.getElementsByName('departure')[0].value) {
-                //     fieldEmpty = true;
-                    
-                //     this.invalidDeparture = true;
-                // } else {
-                //     this.invalidDeparture = false;
-                //     input.classList.add('is-valid');
-                // }
 
                 if (!input.value) {
                     fieldEmpty = true;
@@ -137,13 +125,16 @@ export default {
 
             });
 
+            document.getElementById('status').style.border = '1px solid green';
+
             if (!fieldEmpty) {
+                console.log(document.getElementById('profile_picture').files[0]);
                 let formData = {
                     first_name: e.target.first_name.value,
                     last_name: e.target.last_name.value,
                     email: e.target.email.value,
                     password: e.target.password.value,
-                    profile_picture: e.target.profile_picture.value,
+                    profile_picture: '',
                     status: e.target.status.value
                 };
 
@@ -155,13 +146,14 @@ export default {
                     return;
                 }
 
-                if (formData.profile_picture) {
-                    const pictureExtension = formData.profile_picture.substring(
-                        formData.profile_picture.lastIndexOf('.') + 1
+                if (document.getElementById('profile_picture').files[0]) {
+                    const pictureExtension = document.getElementById('profile_picture').files[0].name.substring(
+                        document.getElementById('profile_picture').files[0].name.lastIndexOf('.') + 1
                     ).toLowerCase();
                     
                     if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
                         this.pictureError = false;
+                        formData.profile_picture = document.getElementById('profile_picture').files[0];
                         document.querySelector('#profile_picture').classList.add('is-valid');
                         document.querySelector('#profile_picture').classList.remove('is-invalid');
                     } else {
@@ -170,6 +162,34 @@ export default {
                         return;
                     }
                 }
+
+                // if (formData.profile_picture) {
+                //     const pictureExtension = formData.profile_picture.substring(
+                //         formData.profile_picture.lastIndexOf('.') + 1
+                //     ).toLowerCase();
+                    
+                //     if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
+                //         this.pictureError = false;
+                //         document.querySelector('#profile_picture').classList.add('is-valid');
+                //         document.querySelector('#profile_picture').classList.remove('is-invalid');
+                //     } else {
+                //         this.pictureError = true;
+                //         document.querySelector('#profile_picture').classList.add('is-invalid');
+                //         return;
+                //     }
+                // }
+
+                axios({
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    url: '/api/user/store',
+                    data: formData
+                })
+                    .then((res) => console.log(res))
+                    .catch((error) => console.log(error));
             }
         }
     }

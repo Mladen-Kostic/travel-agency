@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TravelInsuranceController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,13 @@ Route::prefix('/travel-insurance')->group(function() {
     Route::post('/store', [TravelInsuranceController::class, 'store']);
     Route::put('/{id}', [TravelInsurancecontroller::class, 'update']);
     Route::delete('/{id}', [TravelInsuranceController::class, 'destroy']);
+
+});
+
+Route::prefix('/user')->group(function() {
+
+    Route::post('/store', [UserController::class, 'store']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 
 });
