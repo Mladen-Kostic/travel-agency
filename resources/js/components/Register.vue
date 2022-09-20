@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-6">
                     <label for="confirm">Confirm&nbsp;Password</label>
-                    <input name="confirm" type="password" class="form-control" id="confirm" placeholder="Confirm Password">
+                    <input name="password_confirmation" type="password" class="form-control" id="confirm" placeholder="Confirm Password">
                     <div class="invalid-feedback text-right">
                         Confirm Password field is mandatory.
                     </div>
@@ -128,17 +128,33 @@ export default {
             document.getElementById('status').style.border = '1px solid green';
 
             if (!fieldEmpty) {
-                console.log(document.getElementById('profile_picture').files[0]);
-                let formData = {
+                
+                let formData1 = {
                     first_name: e.target.first_name.value,
                     last_name: e.target.last_name.value,
                     email: e.target.email.value,
                     password: e.target.password.value,
-                    profile_picture: '',
+                    password_confirmation: e.target.password_confirmation.value,
+                    profile_picture_name: e.target.profile_picture.value,
+                    profile_picture: document.getElementById('profile_picture').files[0],
                     status: e.target.status.value
                 };
 
-                if (filter.test(formData.email)) {
+
+                const formData = new FormData();
+                formData.append('first_name', e.target.first_name.value);
+                formData.append('last_name', e.target.last_name.value);
+                formData.append('email', e.target.email.value);
+                formData.append('password', e.target.password.value);
+                formData.append('password_confirmation', e.target.password_confirmation.value);
+
+                // formData.append('profile_picture_name', e.target.profile_picture.value);
+                // formData.append('profile_picture', document.getElementById('profile_picture').files[0]);
+
+                formData.append('status', e.target.status.value);
+
+
+                if (filter.test(formData1.email)) {
                     document.querySelector('#email').classList.remove('is-invalid');
                 } else {
                     document.querySelector('#email').classList.add('is-invalid');
@@ -146,51 +162,138 @@ export default {
                     return;
                 }
 
-                if (document.getElementById('profile_picture').files[0]) {
-                    const pictureExtension = document.getElementById('profile_picture').files[0].name.substring(
-                        document.getElementById('profile_picture').files[0].name.lastIndexOf('.') + 1
-                    ).toLowerCase();
-                    
-                    if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
-                        this.pictureError = false;
-                        formData.profile_picture = document.getElementById('profile_picture').files[0];
-                        document.querySelector('#profile_picture').classList.add('is-valid');
-                        document.querySelector('#profile_picture').classList.remove('is-invalid');
-                    } else {
-                        this.pictureError = true;
-                        document.querySelector('#profile_picture').classList.add('is-invalid');
-                        return;
-                    }
+                if (formData1.password.length >= 6) {
+                    document.querySelector('#password').classList.remove('is-invalid');
+                } else {
+                    document.querySelector('#password').classList.add('is-invalid');
+                    document.querySelector('#password').nextSibling.innerText = 'Password has to be at least 6 characters long.';
+                    return;
                 }
 
-                // if (formData.profile_picture) {
-                //     const pictureExtension = formData.profile_picture.substring(
-                //         formData.profile_picture.lastIndexOf('.') + 1
+                if (formData1.password === e.target.password_confirmation.value) {
+                    document.querySelector('#password').classList.remove('is-invalid');
+                } else {
+                    document.querySelector('#password').classList.add('is-invalid');
+                    document.querySelector('#confirm').classList.add('is-invalid');
+                    document.querySelector('#password').nextSibling.innerText = 'Passwords need to match.';
+                    document.querySelector('#confirm').nextSibling.innerText = 'Passwords need to match.';
+                    return;
+                }
+
+                // if (document.getElementById('profile_picture').files[0]) {
+                //     const pictureExtension = document.getElementById('profile_picture').files[0].name.substring(
+                //         document.getElementById('profile_picture').files[0].name.lastIndexOf('.') + 1
                 //     ).toLowerCase();
                     
                 //     if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
                 //         this.pictureError = false;
+                //         formData.profile_picture = document.getElementById('profile_picture').files[0];
                 //         document.querySelector('#profile_picture').classList.add('is-valid');
                 //         document.querySelector('#profile_picture').classList.remove('is-invalid');
                 //     } else {
                 //         this.pictureError = true;
+                //         fieldEmpty = true;
                 //         document.querySelector('#profile_picture').classList.add('is-invalid');
                 //         return;
                 //     }
                 // }
 
+                if (formData1.profile_picture_name) {
+                    const pictureExtension = formData1.profile_picture_name.substring(
+                        formData1.profile_picture_name.lastIndexOf('.') + 1
+                    ).toLowerCase();
+                    
+                    if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
+                        this.pictureError = false;
+                        document.querySelector('#profile_picture').classList.add('is-valid');
+                        document.querySelector('#profile_picture').classList.remove('is-invalid');
+                        formData.append('profile_picture_name', e.target.profile_picture.value);
+                        formData.append('profile_picture', document.getElementById('profile_picture').files[0]);
+                    } else {
+                        this.pictureError = true;
+                        
+                        document.querySelector('#profile_picture').classList.add('is-invalid');
+                        return;
+                    }
+                }
+
                 axios({
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json',
-                        // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                     url: '/api/user/store',
                     data: formData
                 })
-                    .then((res) => console.log(res))
+                    .then((res) => {
+                        if (res.data.error) {
+                            // console.log(res.data.message.password[0], Object.keys(res.data.message), res.data.message)
+
+                            if (res.data.message.hasOwnProperty('first_name')) {
+                                document.querySelector('#first_name').classList.add('is-invalid');
+                                document.querySelector('#first_name').nextSibling.innerText = res.data.message.first_name[0];
+                            }
+
+                            if (res.data.message.hasOwnProperty('last_name')) {
+                                document.querySelector('#last_name').classList.add('is-invalid');
+                                document.querySelector('#last_name').nextSibling.innerText = res.data.message.last_name[0];
+                            }
+
+                            if (res.data.message.hasOwnProperty('email')) {
+                                document.querySelector('#email').classList.add('is-invalid');
+                                document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
+                            }
+
+                            if (res.data.message.hasOwnProperty('password')) {
+                                document.querySelector('#password').classList.add('is-invalid');
+                                document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
+                                if (res.data.message.password[0] === 'The password confirmation does not match.') {
+                                    document.querySelector('#password_confirmation').classList.add('is-invalid');
+                                }
+                            }
+
+                            if (res.data.message.hasOwnProperty('password_confirmation')) {
+                                document.querySelector('#password_confirmation').classList.add('is-invalid');
+                                document.querySelector('#password_confirmation').nextSibling.innerText = res.data.message.password_confirmation[0];
+                            }
+
+                            if (res.data.message.hasOwnProperty('profile_picture')) {
+                                document.querySelector('#profile_picture').classList.add('is-invalid');
+                                document.querySelector('#profile_picture').nextSibling.innerText = res.data.message.profile_picture[0];
+                            }
+
+                            if (res.data.message.hasOwnProperty('status')) {
+                                document.querySelector('#status').classList.add('is-invalid');
+                                document.querySelector('#status').nextSibling.innerText = res.data.message.status[0];
+                            }
+
+                            setTimeout(function() {
+                                this.error = false;
+                                this.message = '';
+                            }, 5000)
+                        }
+
+                        if (res.data.success) {
+                            this.success = res.data.success;
+                            this.message = res.data.message;
+
+                            document.querySelectorAll('#registerForm input').forEach(input => {
+                                input.value = '';
+                                input.classList.remove('is-valid');
+                                document.getElementById('status').style.border = null;
+                            });
+
+                            setTimeout(function() {
+                                this.success = false;
+                                this.message = '';
+
+                            }, 5000);
+                        }
+                    })
                     .catch((error) => console.log(error));
             }
+                
         }
     }
 }

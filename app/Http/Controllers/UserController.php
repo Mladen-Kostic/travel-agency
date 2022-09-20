@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -34,7 +37,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->file;
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            'status' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $imageName = $request->profile_picture ? time() . '.' . $request->file('profile_picture')->getClientOriginalName() : false;
+
+        if ($imageName) {
+            $request->file('profile_picture')->move(public_path('/profile_pictures'), $imageName);
+        }
+
+        User::registerUser($request, $imageName);
+
+
+
+        return ['success' => 'true', 'message' => 'User registered successfully.'];
     }
 
     /**

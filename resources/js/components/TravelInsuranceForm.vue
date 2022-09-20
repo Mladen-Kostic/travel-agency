@@ -379,7 +379,6 @@ export default {
                                 this.success = false;
                                 this.message = '';
 
-                                document.querySelector('.alert').remove();
                             }, 5000);
                         }
 

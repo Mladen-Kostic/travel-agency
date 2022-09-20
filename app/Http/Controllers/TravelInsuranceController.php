@@ -49,7 +49,7 @@ class TravelInsuranceController extends Controller
             'phone' => 'required|numeric|min:7',
             'dob' => 'required'
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
