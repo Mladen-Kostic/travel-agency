@@ -1,11 +1,15 @@
 <template>
     <div id="main">
-        <navbar @activeTabEvent="(msg) => activeTab = msg" />
+        <navbar
+            @activeTabEvent="(msg) => activeTab = msg"
+            ref="navbarRef"
+        />
 
         <div class="container">
             <Transition>
                 <component
                     :is="activeTab"
+                    @goToRegister="this.$refs.navbarRef.mainPageComp('Register')"
                 />
             </Transition>
             <!-- <TravelInsuranceForm v-if="activeTab === 'TravelInsuranceForm'" /> -->
@@ -20,6 +24,7 @@ import TravelInsuranceForm from './TravelInsuranceForm.vue';
 import Intro from './Intro.vue';
 import Register from './Register.vue';
 import Login from './Login.vue';
+import ref from 'vue';
 
 export default {
     components: {

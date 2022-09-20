@@ -2,7 +2,6 @@
     <div>
         <h1 class="mb-4"><i class="fas fa-sign-in-alt"></i> Login</h1>
         
-        <!-- <form id="travelInsuranceForm" @submit.prevent="makeInsurance"> -->
         <form id="loginForm" @submit.prevent="loginUser">
             <div v-if="error" class="alert alert-danger" role="alert">
                 {{ this.message }}
@@ -27,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <small><a @click="navbar.mainPageComp('Register')" class="text-white">Don't have an account?</a></small>
+            <small><a @click="$emit('goToRegister')" class="text-white">Don't have an account?</a></small>
             
             <button type="submit" class="btn btn-primary btn-lg">Login</button>
         </form>
@@ -35,18 +34,14 @@
 </template>
 
 <script>
-import navbar from './navbar.vue';
 
 export default {
-    components: {
-        navbar
-    },
+    emits: ['goToRegister'],
     data() {
         return {
             success: false,
             error: false,
-            message: '',
-            test: 'https://tallpad.com/series/vuejs-misc/lessons/component-communication-in-vue3-sibling-parent-and-child-components'
+            message: ''
         }
     },
     methods: {
@@ -102,42 +97,43 @@ export default {
                     url: '/api/user/login',
                     data: formData
                 })
-                    .then((res) => {
-                        if (res.data.error) {
+                    .then((res) => console.log(res))
+                    // .then((res) => {
+                    //     if (res.data.error) {
 
-                            if (res.data.message.hasOwnProperty('email')) {
-                                document.querySelector('#email').classList.add('is-invalid');
-                                document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
-                            }
+                    //         if (res.data.message.hasOwnProperty('email')) {
+                    //             document.querySelector('#email').classList.add('is-invalid');
+                    //             document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
+                    //         }
 
-                            if (res.data.message.hasOwnProperty('password')) {
-                                document.querySelector('#password').classList.add('is-invalid');
-                                document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
-                            }
+                    //         if (res.data.message.hasOwnProperty('password')) {
+                    //             document.querySelector('#password').classList.add('is-invalid');
+                    //             document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
+                    //         }
 
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
-                            }, 5000)
-                        }
+                    //         setTimeout(function() {
+                    //             this.error = false;
+                    //             this.message = '';
+                    //         }, 5000)
+                    //     }
 
-                        if (res.data.success) {
-                            this.success = res.data.success;
-                            this.message = res.data.message;
+                    //     if (res.data.success) {
+                    //         this.success = res.data.success;
+                    //         this.message = res.data.message;
 
-                            document.querySelectorAll('#loginForm input').forEach(input => {
-                                input.value = '';
-                                input.classList.remove('is-valid');
-                                document.getElementById('status').style.border = null;
-                            });
+                    //         document.querySelectorAll('#loginForm input').forEach(input => {
+                    //             input.value = '';
+                    //             input.classList.remove('is-valid');
+                    //             document.getElementById('status').style.border = null;
+                    //         });
 
-                            setTimeout(function() {
-                                this.success = false;
-                                this.message = '';
+                    //         setTimeout(function() {
+                    //             this.success = false;
+                    //             this.message = '';
 
-                            }, 5000);
-                        }
-                    })
+                    //         }, 5000);
+                    //     }
+                    // })
                     .catch((error) => console.log(error));
             }
                 

@@ -19,8 +19,10 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return 'test';
+            return ['success' => true, 'message' => 'Logged in successfully.', 'auth_user' => Auth::user()];
         }
+
+        return ['error' => true, 'message' => 'Error while logging in. Please try again.'];
     }
 
     /**
