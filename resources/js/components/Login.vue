@@ -27,20 +27,26 @@
                     </div>
                 </div>
             </div>
-
+            <small><a @click="navbar.mainPageComp('Register')" class="text-white">Don't have an account?</a></small>
+            
             <button type="submit" class="btn btn-primary btn-lg">Login</button>
         </form>
     </div>
 </template>
 
 <script>
+import navbar from './navbar.vue';
 
 export default {
+    components: {
+        navbar
+    },
     data() {
         return {
             success: false,
             error: false,
-            message: ''
+            message: '',
+            test: 'https://tallpad.com/series/vuejs-misc/lessons/component-communication-in-vue3-sibling-parent-and-child-components'
         }
     },
     methods: {
@@ -161,5 +167,9 @@ label.custom-file-label {
 
 #loginForm button {
     float: right;
+}
+
+#loginForm a {
+    cursor: pointer;
 }
 </style>

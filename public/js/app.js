@@ -19603,12 +19603,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navbar.vue */ "./resources/js/components/navbar.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    navbar: _navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       success: false,
       error: false,
-      message: ''
+      message: '',
+      test: 'https://tallpad.com/series/vuejs-misc/lessons/component-communication-in-vue3-sibling-parent-and-child-components'
     };
   },
   methods: {
@@ -20389,19 +20395,31 @@ var _hoisted_3 = {
   role: "alert"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email Address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback text-right\"> Email Address is required for you to log in. </div></div><div class=\"col-6\"><label for=\"password\">Password</label><input name=\"password\" type=\"password\" class=\"form-control\" id=\"password\" placeholder=\"Enter Password\"><div class=\"invalid-feedback text-right\"> Password is required for you to log in. </div></div></div><button type=\"submit\" class=\"btn btn-primary btn-lg\">Login</button>", 2);
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form-group row\"><div class=\"col-6\"><label for=\"email\">Email Address</label><input name=\"email\" type=\"text\" class=\"form-control\" id=\"email\" placeholder=\"Email Address\"><div class=\"invalid-feedback text-right\"> Email Address is required for you to log in. </div></div><div class=\"col-6\"><label for=\"password\">Password</label><input name=\"password\" type=\"password\" class=\"form-control\" id=\"password\" placeholder=\"Enter Password\"><div class=\"invalid-feedback text-right\"> Password is required for you to log in. </div></div></div>", 1);
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "submit",
+  "class": "btn btn-primary btn-lg"
+}, "Login", -1
+/* HOISTED */
+);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form id=\"travelInsuranceForm\" @submit.prevent=\"makeInsurance\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     id: "loginForm",
-    onSubmit: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.loginUser && $options.loginUser.apply($options, arguments);
     }, ["prevent"]))
   }, [$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.message), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_4], 32
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.navbar.mainPageComp('Register');
+    }),
+    "class": "text-white"
+  }, "Don't have an account?")]), _hoisted_5], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -21076,7 +21094,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nlabel.custom-file-label {\r\n    margin-top: 2rem;\n}\n#loginForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem 2rem 4rem 2rem;\r\n    border-radius: 2%;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.pictureError {\r\n    margin-top: 2.5rem;\n}\n#loginForm button {\r\n    float: right;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nlabel.custom-file-label {\r\n    margin-top: 2rem;\n}\n#loginForm {\r\n    background-color: #1976d27c;\r\n    padding: 2rem 2rem 4rem 2rem;\r\n    border-radius: 2%;\n}\n.invalid-feedback {\r\n    color: #fff!important;\n}\n.pictureError {\r\n    margin-top: 2.5rem;\n}\n#loginForm button {\r\n    float: right;\n}\n#loginForm a {\r\n    cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
