@@ -18,6 +18,10 @@
                         <a :class="{'active': activeObj.Register, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Register')"><i class="fas fa-user-plus"></i> Register</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a :class="{'active': activeObj.Login, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Login')"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -34,7 +38,8 @@ export default {
             nav_linkNav: true,
             activeObj: {
                 TravelInsuranceForm: false,
-                Register: false
+                Register: false,
+                Login: false
             }
         }
     },
