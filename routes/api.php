@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\TravelInsuranceController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +19,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('/travel-insurance')->group(function() {
+    
+    Route::post('/store', [TravelInsuranceController::class, 'store']);
+    Route::put('/{id}', [TravelInsurancecontroller::class, 'update']);
+    Route::delete('/{id}', [TravelInsuranceController::class, 'destroy']);
+
+});
+
+Route::prefix('/user')->group(function() {
+
+    Route::post('/store', [UserController::class, 'store']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
+
 });

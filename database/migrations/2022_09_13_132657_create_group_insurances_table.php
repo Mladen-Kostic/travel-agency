@@ -19,7 +19,7 @@ class CreateGroupInsurancesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->date('dob');
-            $table->foreign('travel_insurances_id')->references('id')->on('travel_insurances');
+            $table->foreign('travel_insurances_id')->references('id')->on('travel_insurances')->onDelete('cascade');
             $table->timestamps();
         });
     }
