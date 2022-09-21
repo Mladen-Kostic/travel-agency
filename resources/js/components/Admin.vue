@@ -13,6 +13,7 @@
                     <th scope="col">Email Address</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Date Of Birth</th>
+                    <th scope="col">Group Insurance</th>
                     <th scope="col">More</th>
                     </tr>
                 </thead>
@@ -24,6 +25,64 @@
                         <td>{{ item.email }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ formatDate(item.dob) }}</td>
+                        <td v-if="item.group">
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                See All
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.first_name }}'s group insurance.</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </td>
+                        <td v-else>Individual</td>
                         <td>
                             <div class="dropdown show">
                             <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,7 +94,6 @@
                                 <a class="dropdown-item bg-transparent">Return:&nbsp;{{ formatDate(item.return) }}</a>
                                 <a class="dropdown-item bg-transparent">From:&nbsp;{{ item.from }}</a>
                                 <a class="dropdown-item bg-transparent">To:&nbsp;{{ item.to }}</a>
-                                <a class="dropdown-item bg-transparent" href="#"><button class="btn btn-primary">Group Insurance</button></a>
                             </div>
                             </div>
                         </td>
@@ -48,7 +106,6 @@
                 <h3>¯\_(ツ)_/¯</h3>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -105,5 +162,12 @@ export default {
     color: #fff;
 }
 
+.modal-backdrop {
+   background-color: #1976d27c;
+}
+
+.modal-content {
+   color: black;
+}
 </style>
 
