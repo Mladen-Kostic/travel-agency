@@ -16,7 +16,7 @@ class TravelInsuranceController extends Controller
      */
     public function index()
     {
-        //
+        return TravelInsurance::showTravelInsurances();
     }
 
     /**

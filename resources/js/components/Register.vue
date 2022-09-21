@@ -76,9 +76,12 @@
                         Status field is mandatory.
                     </div>
                 </div>
+                <small><a @click="$emit('goToLogin')" class="text-white">Already have an account? Log in here.</a></small>
             </div>
             
             <button type="submit" class="btn btn-primary">Register</button>
+
+            
         </form>
     </div>
 </template>
@@ -223,7 +226,7 @@ export default {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    url: '/api/user/store',
+                    url: '/user/store',
                     data: formData
                 })
                     .then((res) => {
@@ -316,5 +319,10 @@ label.custom-file-label {
 
 .pictureError {
     margin-top: 2.5rem;
+}
+
+#registerForm a {
+    cursor: pointer;
+    margin-left: 1.4rem;
 }
 </style>

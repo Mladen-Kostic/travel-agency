@@ -6,3 +6,14 @@ body {
     height: 100vh;
     color: #fff;
 }
+
+#foot {
+    padding: 2rem;
+    background-color: #1976d27c;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}

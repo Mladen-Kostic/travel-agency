@@ -348,7 +348,7 @@ export default {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    url: '/api/travel-insurance/store',
+                    url: '/travel-insurance/store',
                     data: formData
                 })
                     .then(res => {

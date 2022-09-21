@@ -36,4 +36,11 @@ class TravelInsurance extends Model
 
     }
 
+    public static function showTravelInsurances() {
+        $data = DB::table('travel_insurances')
+            ->get();
+
+        return $data;
+    }
+
 }

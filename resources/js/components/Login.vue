@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <small><a @click="$emit('goToRegister')" class="text-white">Don't have an account?</a></small>
+            <small><a @click="$emit('goToRegister')" class="text-white">Don't have an account? Register here.</a></small>
             
             <button type="submit" class="btn btn-primary btn-lg">Login</button>
         </form>
@@ -36,7 +36,7 @@
 <script>
 
 export default {
-    emits: ['goToRegister'],
+    emits: ['goToRegister', 'successAction', 'goToLogin', 'goToAdmin', 'goToIntro'],
     data() {
         return {
             success: false,
@@ -94,47 +94,67 @@ export default {
                         'Content-Type': 'application/json',
                         // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    url: '/api/user/login',
+                    url: '/user/login',
                     data: formData
                 })
-                    .then((res) => console.log(res))
-                    // .then((res) => {
-                    //     if (res.data.error) {
+                    // .then((res) => console.log(res))
+                    
+                    .then((res) => {
+                        if (res.data.error) {
 
-                    //         if (res.data.message.hasOwnProperty('email')) {
-                    //             document.querySelector('#email').classList.add('is-invalid');
-                    //             document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
-                    //         }
+                            if (res.data.message.hasOwnProperty('email')) {
+                                document.querySelector('#email').classList.add('is-invalid');
+                                document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
+                            }
 
-                    //         if (res.data.message.hasOwnProperty('password')) {
-                    //             document.querySelector('#password').classList.add('is-invalid');
-                    //             document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
-                    //         }
+                            if (res.data.message.hasOwnProperty('password')) {
+                                document.querySelector('#password').classList.add('is-invalid');
+                                document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
+                            }
 
-                    //         setTimeout(function() {
-                    //             this.error = false;
-                    //             this.message = '';
-                    //         }, 5000)
-                    //     }
+                            this.error = true;
+                            this.message = res.data.message;
 
-                    //     if (res.data.success) {
-                    //         this.success = res.data.success;
-                    //         this.message = res.data.message;
+                            document.querySelectorAll('#loginForm input').forEach(input => {
+                                input.classList.remove('is-valid');
+                            });
 
-                    //         document.querySelectorAll('#loginForm input').forEach(input => {
-                    //             input.value = '';
-                    //             input.classList.remove('is-valid');
-                    //             document.getElementById('status').style.border = null;
-                    //         });
+                            setTimeout(function() {
+                                this.error = false;
+                                this.message = '';
+                            }, 5000)
+                        }
 
-                    //         setTimeout(function() {
-                    //             this.success = false;
-                    //             this.message = '';
+                        if (res.data.success) {
+                            // this.success = res.data.success;
+                            // this.message = res.data.message;
 
-                    //         }, 5000);
-                    //     }
-                    // })
+                            document.querySelectorAll('#loginForm input').forEach(input => {
+                                input.value = '';
+                                input.classList.remove('is-valid');
+                            });
+
+                            this.$emit('successAction', res.data);
+                            if (res.data.auth_user.status === 'admin' || res.data.auth_user.status === 'superadmin') {
+                                console.log('goToAdmin');
+                                this.$emit('goToAdmin');
+                            } else {
+                                console.log('goToIntro');
+                                this.$emit('goToIntro');
+                            }
+
+                            // setTimeout(function() {
+                            //     this.success = false;
+                            //     this.message = '';
+
+                            // }, 5000);
+                        }
+                    })
                     .catch((error) => console.log(error));
+
+                    // axios.post('/user/login', formData)
+                    // .then((res) => console.log(res))
+                    // .catch((error) => console.log(error));
             }
                 
         }
@@ -150,7 +170,7 @@ label.custom-file-label {
 #loginForm {
     background-color: #1976d27c;
     padding: 2rem 2rem 4rem 2rem;
-    border-radius: 2%;
+    border-radius: 0.7rem;
 }
 
 .invalid-feedback {
