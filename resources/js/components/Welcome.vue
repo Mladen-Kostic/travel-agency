@@ -90,4 +90,8 @@ export default {
 .v-leave-to {
   opacity: 0;
 }
+
+.container {
+    margin-bottom: 4rem;
+}
 </style>

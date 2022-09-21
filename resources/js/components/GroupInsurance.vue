@@ -21,7 +21,7 @@
                     ></Datepicker>
                 </div>
                 <div class="col-3 text-center">
-                    <button class="btn btn-secondary addBtn btn-block"><i class="fas fa-plus-circle"></i> Add</button>
+                    <button class="btn btn-secondary addBtn btn-block"><i class="fas fa-plus-circle"></i>&nbsp;Add</button>
                 </div>
                 
             </div>

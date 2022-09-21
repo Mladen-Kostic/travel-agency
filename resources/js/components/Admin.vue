@@ -31,9 +31,11 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Departure:{{ formatDate(item.departure) }}</a>
-                                <a class="dropdown-item" href="#">Return:{{ formatDate(item.return) }}</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item bg-transparent">Departure:&nbsp;{{ formatDate(item.departure) }}</a>
+                                <a class="dropdown-item bg-transparent">Return:&nbsp;{{ formatDate(item.return) }}</a>
+                                <a class="dropdown-item bg-transparent">From:&nbsp;{{ item.from }}</a>
+                                <a class="dropdown-item bg-transparent">To:&nbsp;{{ item.to }}</a>
+                                <a class="dropdown-item bg-transparent" href="#"><button class="btn btn-primary">Group Insurance</button></a>
                             </div>
                             </div>
                         </td>
@@ -41,8 +43,9 @@
                     
                 </tbody>
             </table>
-            <div v-else>
-                <h3>No Insurances.</h3>
+            <div class="text-center pt-5" v-else>
+                <h3>Could not find any Insurances...</h3>
+                <h3>¯\_(ツ)_/¯</h3>
             </div>
         </div>
         
@@ -96,5 +99,11 @@ export default {
 .H1 {
     border-bottom: 1px solid rgba(255, 255, 255, 0.295);
 }
+
+.dropdown-menu {
+    background-color: #1976d27c;
+    color: #fff;
+}
+
 </style>
 
