@@ -14,11 +14,16 @@
             <Transition>
                 <component
                     :is="activeTab"
+                    :loggedIn="loggedIn"
+                    :admin="admin"
+                    :auth_user_id="auth_user_id"
                     @goToRegister="this.$refs.navbarRef.mainPageComp('Register')"
                     @goToIntro="this.$refs.navbarRef.mainPageComp('Intro')"
                     @goToLogin="this.$refs.navbarRef.mainPageComp('Login')"
                     @goToTravelInsurance="this.$refs.navbarRef.mainPageComp('TravelInsuranceForm')"
                     @goToAdmin="this.$refs.navbarRef.mainPageComp('Admin')"
+                    @goToPosts="this.$refs.navbarRef.mainPageComp('Posts')"
+                    @goToCreatePost="this.$refs.navbarRef.mainPageComp('CreatePost')"
                     @successAction="(resData) => successAction(resData)"
                 />
             </Transition>
@@ -36,6 +41,8 @@ import Intro from './Intro.vue';
 import Register from './Register.vue';
 import Login from './Login.vue';
 import Admin from './Admin.vue';
+import Posts from './Posts.vue';
+import CreatePost from './CreatePost.vue';
 // import ref from 'vue';
 
 
@@ -46,7 +53,9 @@ export default {
         Intro,
         Register,
         Login,
-        Admin
+        Admin,
+        Posts,
+        CreatePost
     },
     data() {
         return {
@@ -55,15 +64,19 @@ export default {
             error: false,
             message: '',
             method: null,
-            loggedIn: false,
-            admin: false
+            // loggedIn: false,
+            // admin: false,
+            // auth_user_id: 0
+            loggedIn: true,
+            admin: true,
+            auth_user_id: 1
         }
     },
     methods: {
         successAction(resData) {
             this.success = resData.success;
             this.message = resData.message;
-        
+            this.auth_user_id = resData.auth_user.id;
 
             if (resData.message === "Logged in successfully.") {
                 this.loggedIn = true;

@@ -14,19 +14,23 @@
                         <a :class="{'active': activeObj.TravelInsuranceForm, 'nav-link': nav_linkNav}" @click="this.mainPageComp('TravelInsuranceForm')"><i class="fas fa-user-shield"></i> Travel Insurance</a>
                     </li>
 
-                    <li v-if="!loggedIn" class="nav-item">
+                    <li class="nav-item ml-4">
+                        <a :class="{'active': activeObj.Posts, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Posts')"><i class="fas fa-rss-square"></i> Posts</a>
+                    </li>
+
+                    <li v-if="!loggedIn" class="nav-item ml-4">
                         <a :class="{'active': activeObj.Register, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Register')"><i class="fas fa-user-plus"></i> Register</a>
                     </li>
 
-                    <li v-if="!loggedIn" class="nav-item">
+                    <li v-if="!loggedIn" class="nav-item ml-4">
                         <a :class="{'active': activeObj.Login, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Login')"><i class="fas fa-sign-in-alt"></i> Login</a>
                     </li>
 
-                    <li class="nav-item">
+                    <li v-if="admin" class="nav-item ml-4">
                         <a :class="{'active': activeObj.Admin, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Admin')"><i class="fas fa-user-cog"></i> Admin</a>
                     </li>
 
-                    <li v-if="loggedIn" class="nav-item">
+                    <li v-if="loggedIn" class="nav-item ml-4">
                         <a :class="{'active': activeObj.Logout, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Intro')"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
 
@@ -53,7 +57,8 @@ export default {
                 Register: false,
                 Login: false,
                 Logout: false,
-                Admin: false
+                Admin: false,
+                Posts: false
             }
         }
     },
