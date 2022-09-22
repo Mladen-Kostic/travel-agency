@@ -3,7 +3,8 @@
         <h1 class="mb-4 pb-2 H1"><i class="fas fa-user-cog"></i> Admin</h1>
         
         <div class="container">
-            <h3><i class="fas fa-user-shield"></i> The Insured</h3>
+            <h3><i class="fas fa-user-shield"></i> Insured</h3>
+            <div class="tableResponsive">
             <table v-if="travelInsurances" class="table mr-2">
                 <thead>
                     <tr>
@@ -28,7 +29,7 @@
                         <td v-if="item.group">
 
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <button @click="showGroupInsured(item.id)" type="button" class="btn btn-primary bg-transparent" data-toggle="modal" data-target="#exampleModal">
                                 See All
                             </button>
 
@@ -37,7 +38,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.first_name }}'s group insurance.</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Group Insurance</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
@@ -46,30 +47,16 @@
                                     <table class="table">
                                     <thead>
                                         <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
+                                        <th scope="col">First Name</th>
                                         <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
+                                        <th scope="col">Date Of Birth</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
+                                        <tr v-for="groupItem in groupInsurances" :key="groupItem.id">
+                                            <td>{{ groupItem.first_name }}</td>
+                                            <td>{{ groupItem.last_name }}</td>
+                                            <td>{{ groupItem.dob }}</td>
                                         </tr>
                                     </tbody>
                                     </table>
@@ -85,25 +72,27 @@
                         <td v-else>Individual</td>
                         <td>
                             <div class="dropdown show">
-                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ...
-                            </a>
+                                <a class="btn btn-primary dropdown-toggle bg-transparent" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Show more information about the Insured.">
+                                    ...
+                                </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item bg-transparent">Departure:&nbsp;{{ formatDate(item.departure) }}</a>
-                                <a class="dropdown-item bg-transparent">Return:&nbsp;{{ formatDate(item.return) }}</a>
-                                <a class="dropdown-item bg-transparent">From:&nbsp;{{ item.from }}</a>
-                                <a class="dropdown-item bg-transparent">To:&nbsp;{{ item.to }}</a>
-                            </div>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item bg-transparent">Departure:&nbsp;{{ formatDate(item.departure) }}</a>
+                                    <a class="dropdown-item bg-transparent">Return:&nbsp;{{ formatDate(item.return) }}</a>
+                                    <a class="dropdown-item bg-transparent">From:&nbsp;{{ item.from }}</a>
+                                    <a class="dropdown-item bg-transparent">To:&nbsp;{{ item.to }}</a>
+                                </div>
                             </div>
                         </td>
                     </tr>
                     
                 </tbody>
             </table>
+            
             <div class="text-center pt-5" v-else>
                 <h3>Could not find any Insurances...</h3>
                 <h3>¯\_(ツ)_/¯</h3>
+            </div>
             </div>
         </div>
     </div>
@@ -113,7 +102,8 @@
 export default {
     data() {
         return {
-            travelInsurances: null
+            travelInsurances: null,
+            groupInsurances: null,
         }
     },
     methods: {
@@ -125,6 +115,14 @@ export default {
             const year = date.getFullYear();
 
             return `${day}.${month}.${year}`;
+        },
+        showGroupInsured(id) {
+            axios.get('/group/' + id)
+                // .then((res) => console.log(res))
+                .then((res) => {
+                    this.groupInsurances = res.data;
+                })
+                .catch((error) => console.log(error));
         }
     },
     mounted() {
@@ -158,7 +156,7 @@ export default {
 }
 
 .dropdown-menu {
-    background-color: #1976d27c;
+    background-color: #1976d2ce;
     color: #fff;
 }
 
@@ -168,6 +166,19 @@ export default {
 
 .modal-content {
    color: black;
+}
+
+.tableResponsive {
+    display: block;
+    width: 100%;
+    
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 800px) {
+    .tableResponsive {
+        overflow-x: auto;
+    }
 }
 </style>
 

@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TravelInsurancecontroller;
+use App\Http\Controllers\GroupInsuranceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +42,11 @@ Route::prefix('/user')->group(function() {
     Route::delete('/{id}', [UserController::class, 'destroy']);
 
     Route::post('/login', [UserController::class, 'authenticate']);
+
+});
+
+Route::prefix('/group')->group(function() {
+
+    Route::get('/{id}', [GroupInsuranceController::class, 'groupById']);
 
 });
