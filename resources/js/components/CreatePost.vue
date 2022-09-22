@@ -69,7 +69,6 @@
                         />
                     </div>
                     <div id="postContentError" class="selectInvalid text-right">
-                        {{ postContent }}
                     </div>
                 </div>
             </div>
@@ -138,26 +137,8 @@ export default {
         },
         createPost(e) {
             let fieldEmpty = true;
-            // let fieldEmpty = false;
 
-            // document.querySelectorAll('#createPostForm input').forEach(input => {
-            //     if (input.id === 'post_cover_img') {
-            //         return;
-            //     }
-
-            //     if (!input.value) {
-            //         fieldEmpty = true;
-                    
-            //         input.classList.add('is-invalid');
-            //         input.classList.remove('is-valid');
-            //     } else {
-            //         input.classList.add('is-valid');
-            //         input.classList.remove('is-invalid');
-            //     }
-
-            // });
-
-            // document.getElementById('status').style.border = '1px solid green';
+            const formData = new FormData();
 
             const formData1 = {
                 post_title: e.target.post_title.value,
@@ -165,8 +146,9 @@ export default {
                 post_short_description: this.postShortDescription,
                 post_content: this.postContent,
                 post_statuses: e.target.post_statuses.value,
-                post_cover_img: e.target.post_cover_img.value
+                post_cover_img: e.target.post_cover_img.files[0]
             }
+
 
             if (!formData1.post_title) {
                 fieldEmpty = true;
@@ -187,14 +169,23 @@ export default {
                 document.getElementById('post_types').style.border = '2px solid green';
             }
 
-            // if (!formData1.post_short_description) {
-            //     fieldEmpty = true;
+            if (!formData1.post_short_description) {
+                fieldEmpty = true;
 
-            //     document.getElementById('post_types').style.border = '1px solid red';
-            //     document.getElementById('postTypesError').innerText = 'Post Type field is mandatory.';
-            // } else {
-            //     document.getElementById('post_types').style.border = '2px solid green';
-            // }
+                document.getElementById('postShortDescription').style.border = '1px solid red';
+                document.getElementById('postShortDescriptionError').innerText = 'Post Short Description field is mandatory.';
+            } else {
+                document.getElementById('postShortDescription').style.border = '2px solid green';
+            }
+
+            if (!formData1.post_content) {
+                fieldEmpty = true;
+
+                document.getElementById('postContent').style.border = '1px solid red';
+                document.getElementById('postContentError').innerText = 'Post Content field is mandatory.';
+            } else {
+                document.getElementById('postContent').style.border = '2px solid green';
+            }
 
             if (formData1.post_statuses == 0) {
                 fieldEmpty = true;
@@ -206,97 +197,41 @@ export default {
                 document.getElementById('post_statuses').style.border = '2px solid green';
             }
 
-
+            // FORMDATA APPEND
             if (!fieldEmpty) {
-                
-                let formData1 = {
-                    first_name: e.target.first_name.value,
-                    last_name: e.target.last_name.value,
-                    email: e.target.email.value,
-                    password: e.target.password.value,
-                    password_confirmation: e.target.password_confirmation.value,
-                    profile_picture_name: e.target.profile_picture.value,
-                    profile_picture: document.getElementById('profile_picture').files[0],
-                    status: e.target.status.value
-                };
 
+                formData.append('post_title', formData1.post_title);
+                formData.append('post_types', formData1.post_types);
+                formData.append('post_short_description', formData1.post_short_description);
+                formData.append('post_content', formData1.post_content);
+                formData.append('post_statuses', formData1.post_statuses);
 
-                const formData = new FormData();
-                formData.append('first_name', e.target.first_name.value);
-                formData.append('last_name', e.target.last_name.value);
-                formData.append('email', e.target.email.value);
-                formData.append('password', e.target.password.value);
-                formData.append('password_confirmation', e.target.password_confirmation.value);
-
-                // formData.append('profile_picture_name', e.target.profile_picture.value);
-                // formData.append('profile_picture', document.getElementById('profile_picture').files[0]);
-
-                formData.append('status', e.target.status.value);
-
-
-                if (filter.test(formData1.email)) {
-                    document.querySelector('#email').classList.remove('is-invalid');
-                } else {
-                    document.querySelector('#email').classList.add('is-invalid');
-                    document.querySelector('#email').nextSibling.innerText = 'This field has to be valid email.';
-                    return;
-                }
-
-                if (formData1.password.length >= 6) {
-                    document.querySelector('#password').classList.remove('is-invalid');
-                } else {
-                    document.querySelector('#password').classList.add('is-invalid');
-                    document.querySelector('#password').nextSibling.innerText = 'Password has to be at least 6 characters long.';
-                    return;
-                }
-
-                if (formData1.password === e.target.password_confirmation.value) {
-                    document.querySelector('#password').classList.remove('is-invalid');
-                } else {
-                    document.querySelector('#password').classList.add('is-invalid');
-                    document.querySelector('#confirm').classList.add('is-invalid');
-                    document.querySelector('#password').nextSibling.innerText = 'Passwords need to match.';
-                    document.querySelector('#confirm').nextSibling.innerText = 'Passwords need to match.';
-                    return;
-                }
-
-                // if (document.getElementById('profile_picture').files[0]) {
-                //     const pictureExtension = document.getElementById('profile_picture').files[0].name.substring(
-                //         document.getElementById('profile_picture').files[0].name.lastIndexOf('.') + 1
-                //     ).toLowerCase();
-                    
-                //     if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
-                //         this.pictureError = false;
-                //         formData.profile_picture = document.getElementById('profile_picture').files[0];
-                //         document.querySelector('#profile_picture').classList.add('is-valid');
-                //         document.querySelector('#profile_picture').classList.remove('is-invalid');
-                //     } else {
-                //         this.pictureError = true;
-                //         fieldEmpty = true;
-                //         document.querySelector('#profile_picture').classList.add('is-invalid');
-                //         return;
-                //     }
-                // }
-
-                if (formData1.profile_picture_name) {
-                    const pictureExtension = formData1.profile_picture_name.substring(
-                        formData1.profile_picture_name.lastIndexOf('.') + 1
+                if (formData1.post_cover_img) {
+                    const pictureExtension = formData1.post_cover_img.name.substring(
+                        formData1.post_cover_img.name.lastIndexOf('.') + 1
                     ).toLowerCase();
                     
                     if (pictureExtension == 'png' || pictureExtension == 'jpg' || pictureExtension == 'jpeg' || pictureExtension == 'svg') {
                         this.pictureError = false;
-                        document.querySelector('#profile_picture').classList.add('is-valid');
-                        document.querySelector('#profile_picture').classList.remove('is-invalid');
-                        formData.append('profile_picture_name', e.target.profile_picture.value);
-                        formData.append('profile_picture', document.getElementById('profile_picture').files[0]);
+
+                        document.querySelector('#post_cover_img').classList.add('is-valid');
+                        document.querySelector('#post_cover_img').classList.remove('is-invalid');
+                        
+                        formData.append('post_cover_img_name', formData1.post_cover_img.name);
+                        formData.append('post_cover_img', formData1.post_cover_img);
                     } else {
                         this.pictureError = true;
                         
-                        document.querySelector('#profile_picture').classList.add('is-invalid');
+                        document.querySelector('#post_cover_img').classList.add('is-invalid');
                         return;
                     }
                 }
 
+            }
+
+
+            if (!fieldEmpty) {
+                // continue here
                 axios({
                     method: 'post',
                     headers: {
@@ -308,44 +243,10 @@ export default {
                 })
                     .then((res) => {
                         if (res.data.error) {
-                            // console.log(res.data.message.password[0], Object.keys(res.data.message), res.data.message)
-
-                            if (res.data.message.hasOwnProperty('first_name')) {
-                                document.querySelector('#first_name').classList.add('is-invalid');
-                                document.querySelector('#first_name').nextSibling.innerText = res.data.message.first_name[0];
-                            }
-
-                            if (res.data.message.hasOwnProperty('last_name')) {
-                                document.querySelector('#last_name').classList.add('is-invalid');
-                                document.querySelector('#last_name').nextSibling.innerText = res.data.message.last_name[0];
-                            }
-
-                            if (res.data.message.hasOwnProperty('email')) {
-                                document.querySelector('#email').classList.add('is-invalid');
-                                document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
-                            }
-
-                            if (res.data.message.hasOwnProperty('password')) {
-                                document.querySelector('#password').classList.add('is-invalid');
-                                document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
-                                if (res.data.message.password[0] === 'The password confirmation does not match.') {
-                                    document.querySelector('#password_confirmation').classList.add('is-invalid');
-                                }
-                            }
-
-                            if (res.data.message.hasOwnProperty('password_confirmation')) {
-                                document.querySelector('#password_confirmation').classList.add('is-invalid');
-                                document.querySelector('#password_confirmation').nextSibling.innerText = res.data.message.password_confirmation[0];
-                            }
 
                             if (res.data.message.hasOwnProperty('profile_picture')) {
                                 document.querySelector('#profile_picture').classList.add('is-invalid');
                                 document.querySelector('#profile_picture').nextSibling.innerText = res.data.message.profile_picture[0];
-                            }
-
-                            if (res.data.message.hasOwnProperty('status')) {
-                                document.querySelector('#status').classList.add('is-invalid');
-                                document.querySelector('#status').nextSibling.innerText = res.data.message.status[0];
                             }
 
                             setTimeout(function() {
@@ -358,7 +259,7 @@ export default {
                             this.success = res.data.success;
                             this.message = res.data.message;
 
-                            document.querySelectorAll('#registerForm input').forEach(input => {
+                            document.querySelectorAll('#createPostForm input').forEach(input => {
                                 input.value = '';
                                 input.classList.remove('is-valid');
                                 document.getElementById('status').style.border = null;
