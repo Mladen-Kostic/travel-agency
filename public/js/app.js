@@ -20037,7 +20037,7 @@ __webpack_require__.r(__webpack_exports__);
             document.querySelector('#post_cover_img').classList.add('is-valid');
             document.querySelector('#post_cover_img').classList.remove('is-invalid');
             formData.append('post_cover_img_name', formData1.post_cover_img.name);
-            formData.append('post_cover_img', formData1.post_cover_img);
+            formData.append('post_cover_img', document.getElementById('post_cover_img').files[0]);
           } else {
             this.pictureError = true;
             document.querySelector('#post_cover_img').classList.add('is-invalid');

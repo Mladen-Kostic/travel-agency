@@ -68,7 +68,8 @@ class PostController extends Controller
         if ($request->hasFile('post_cover_img')) {
             $imageName = time() . '.' . $request->file('post_cover_img')->getClientOriginalName();
 
-            $request->file('post_cover_img')->move(public_path('/post_images', $imageName));
+            $request->file('post_cover_img')->move(public_path('/post_images'), $imageName);
+
         }
 
         Post::postStore($request);

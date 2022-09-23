@@ -222,7 +222,7 @@ export default {
                         document.querySelector('#post_cover_img').classList.remove('is-invalid');
                         
                         formData.append('post_cover_img_name', formData1.post_cover_img.name);
-                        formData.append('post_cover_img', formData1.post_cover_img);
+                        formData.append('post_cover_img', document.getElementById('post_cover_img').files[0]);
                     } else {
                         this.pictureError = true;
                         
