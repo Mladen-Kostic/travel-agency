@@ -466,7 +466,7 @@ input:checked + .slider:before {
 #travelInsuranceForm {
     background-color: #1976d27c;
     padding: 2rem;
-    border-radius: 2%;
+    border-radius: 0.4rem;
 }
 
 .trashBtn {
@@ -483,7 +483,7 @@ input:checked + .slider:before {
 
 .groupForm {
     border: 1px solid rgba(255, 255, 255, 0.295);
-    border-radius: 0.7rem;
+    border-radius: 0.4rem;
     padding: 1rem 0 1rem 0;
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="mb-4 pb-4"><i class="fas fa-plus"></i> Create Post</h1>
+        <h1 class="mb-4"><i class="fas fa-plus"></i> Create Post</h1>
         
         <!-- <form id="travelInsuranceForm" @submit.prevent="makeInsurance"> -->
         <form id="createPostForm" @submit.prevent="createPost" enctype="multipart/form-data">
@@ -8,11 +8,12 @@
                 {{ this.message }}
             </div>
 
-            <div v-if="success" class="alert alert-success" role="alert">
+            <!-- <div v-if="success" class="alert alert-success" role="alert">
                 {{ this.message }}
-            </div>
+            </div> -->
 
-            <input type="hidden" name="users_id" :value="auth_user_id">
+            <!-- <input type="hidden" name="users_id" id="users_id" :value="auth_user_id"> -->
+            <input type="hidden" name="users_id" id="users_id" value="1">
             <!-- Last Insert id on post for post_statuses -->
 
             <div class="form-group row">
@@ -111,6 +112,7 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
+    emits: ['goToPosts', 'sendAlert'],
     components: {
         QuillEditor
     },
@@ -136,11 +138,12 @@ export default {
     
         },
         createPost(e) {
-            let fieldEmpty = true;
+            let fieldEmpty = false;
 
             const formData = new FormData();
 
             const formData1 = {
+                users_id: e.target.users_id.value,
                 post_title: e.target.post_title.value,
                 post_types: e.target.post_types.value,
                 post_short_description: this.postShortDescription,
@@ -166,7 +169,7 @@ export default {
                 document.getElementById('post_types').style.border = '1px solid red';
                 document.getElementById('postTypesError').innerText = 'Post Type field is mandatory.';
             } else {
-                document.getElementById('post_types').style.border = '2px solid green';
+                document.getElementById('post_types').style.border = '1px solid green';
             }
 
             if (!formData1.post_short_description) {
@@ -175,7 +178,7 @@ export default {
                 document.getElementById('postShortDescription').style.border = '1px solid red';
                 document.getElementById('postShortDescriptionError').innerText = 'Post Short Description field is mandatory.';
             } else {
-                document.getElementById('postShortDescription').style.border = '2px solid green';
+                document.getElementById('postShortDescription').style.border = '1px solid green';
             }
 
             if (!formData1.post_content) {
@@ -184,7 +187,7 @@ export default {
                 document.getElementById('postContent').style.border = '1px solid red';
                 document.getElementById('postContentError').innerText = 'Post Content field is mandatory.';
             } else {
-                document.getElementById('postContent').style.border = '2px solid green';
+                document.getElementById('postContent').style.border = '1px solid green';
             }
 
             if (formData1.post_statuses == 0) {
@@ -194,12 +197,13 @@ export default {
                 document.getElementById('postStatusesError').innerText = 'Post Status field is mandatory.';
 
             } else {
-                document.getElementById('post_statuses').style.border = '2px solid green';
+                document.getElementById('post_statuses').style.border = '1px solid green';
             }
 
             // FORMDATA APPEND
             if (!fieldEmpty) {
 
+                formData.append('users_id', formData1.users_id);
                 formData.append('post_title', formData1.post_title);
                 formData.append('post_types', formData1.post_types);
                 formData.append('post_short_description', formData1.post_short_description);
@@ -231,22 +235,25 @@ export default {
 
 
             if (!fieldEmpty) {
-                // continue here
                 axios({
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    url: '/user/store',
+                    url: '/admin/post-store',
                     data: formData
                 })
+                    // .then((res) => console.log(res))
                     .then((res) => {
                         if (res.data.error) {
 
-                            if (res.data.message.hasOwnProperty('profile_picture')) {
-                                document.querySelector('#profile_picture').classList.add('is-invalid');
-                                document.querySelector('#profile_picture').nextSibling.innerText = res.data.message.profile_picture[0];
+                            this.error = res.data.error;
+                            this.message = res.data.message;
+
+                            if (res.data.message.hasOwnProperty('post_cover_img')) {
+                                document.querySelector('#post_cover_img').classList.add('is-invalid');
+                                document.querySelector('#post_cover_img').nextSibling.innerText = res.data.message.post_cover_img[0];
                             }
 
                             setTimeout(function() {
@@ -262,14 +269,29 @@ export default {
                             document.querySelectorAll('#createPostForm input').forEach(input => {
                                 input.value = '';
                                 input.classList.remove('is-valid');
-                                document.getElementById('status').style.border = null;
                             });
+
+                                document.getElementById('post_types').style.border = null;
+                                document.getElementById('postShortDescription').style.border = null;
+                                document.getElementById('postContent').style.border = null;
+                                document.getElementById('post_statuses').style.border = null;
+
+                                document.querySelectorAll('.ql-editor').forEach((item) => item.innerText = '');
+
+                                document.getElementById('post_types').selectedIndex = 0;
+                                document.getElementById('post_statuses').selectedIndex = 0;
+                                document.getElementById('post_cover_img').value = '';
+                                document.getElementById('post_cover_img').nextSibling.innerText = 'Choose Post Cover (Optional)';
+                                
 
                             setTimeout(function() {
                                 this.success = false;
                                 this.message = '';
 
                             }, 5000);
+
+                            this.$emit('goToPosts');
+                            this.$emit('sendAlert', {success: this.success, message: this.message});
                         }
                     })
                     .catch((error) => console.log(error));
@@ -288,7 +310,7 @@ label.custom-file-label {
 #createPostForm {
     background-color: #1976d27c;
     padding: 2rem;
-    border-radius: 2%;
+    border-radius: 0.4rem;
 }
 
 .invalid-feedback {
@@ -307,7 +329,7 @@ label.custom-file-label {
 
 .ql-toolbar {
     background-color: #fff;
-    border-radius: 0.7rem 0.7rem 0 0;
+    border-radius: 0.4rem 0.4rem 0 0;
 }
 
 .ql-editor {

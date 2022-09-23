@@ -8,15 +8,16 @@
         />
 
         <div class="container">
-            <div v-if="success" class="alert alert-success" role="alert">
-                {{ this.message }}
-            </div>
+            
             <Transition>
                 <component
                     :is="activeTab"
                     :loggedIn="loggedIn"
                     :admin="admin"
                     :auth_user_id="auth_user_id"
+                    :success="success"
+                    :error="error"
+                    :message="message"
                     @goToRegister="this.$refs.navbarRef.mainPageComp('Register')"
                     @goToIntro="this.$refs.navbarRef.mainPageComp('Intro')"
                     @goToLogin="this.$refs.navbarRef.mainPageComp('Login')"
@@ -25,6 +26,7 @@
                     @goToPosts="this.$refs.navbarRef.mainPageComp('Posts')"
                     @goToCreatePost="this.$refs.navbarRef.mainPageComp('CreatePost')"
                     @successAction="(resData) => successAction(resData)"
+                    @sendAlert="(alertObj) => displayAlert(alertObj)"
                 />
             </Transition>
 
@@ -62,16 +64,23 @@ export default {
             activeTab: 'Intro',
             success: false,
             error: false,
-            message: '',
+            message: 'test',
             method: null,
             // loggedIn: false,
             // admin: false,
             // auth_user_id: 0
             loggedIn: true,
             admin: true,
-            auth_user_id: 1
+            auth_user_id: 1,
         }
     },
+    // watch: {
+    //     activeTab: function() {
+    //         this.error = false;
+    //         this.success = false;
+    //         this.message = '';
+    //     }
+    // },
     methods: {
         successAction(resData) {
             this.success = resData.success;
@@ -85,6 +94,20 @@ export default {
             if (resData.auth_user.status === 'admin' || resData.auth_user.status === 'superadmin') {
                 this.admin = true;
             }
+        },
+        displayAlert(alertObj) {
+            this.success = 'success' in alertObj ? alertObj.success : false;
+            this.error = 'error' in alertObj ? alertObj.error : false;
+
+            this.message = alertObj.message;
+
+            setTimeout(function() {
+                this.error = false;
+                this.success = false;
+                this.message = '';
+                
+            }, 4000)
+            
         }
     }
 }
@@ -106,5 +129,9 @@ export default {
 
 .container {
     margin-bottom: 4rem;
+}
+
+.invisible {
+    visibility: hidden;
 }
 </style>

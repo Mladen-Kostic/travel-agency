@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TravelInsurancecontroller;
 use App\Http\Controllers\GroupInsuranceController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,11 @@ Route::prefix('/user')->group(function() {
 Route::prefix('/group')->group(function() {
 
     Route::get('/{id}', [GroupInsuranceController::class, 'groupById']);
+
+});
+
+Route::prefix('/admin')->group(function() {
+
+    Route::post('/post-store', [PostController::class, 'store']);
 
 });

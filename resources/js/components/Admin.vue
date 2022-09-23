@@ -142,7 +142,7 @@ export default {
     color: #fff;
     background-color: #1976d27c;
     padding: 2rem 2rem 4rem 2rem;
-    border-radius: 0.7rem;
+    border-radius: 0.4rem;
 }
 .table td {
     border-top: 1px solid rgba(255, 255, 255, 0.295);
