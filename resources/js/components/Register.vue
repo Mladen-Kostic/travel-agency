@@ -232,20 +232,27 @@ export default {
                     .then((res) => {
                         if (res.data.error) {
                             // console.log(res.data.message.password[0], Object.keys(res.data.message), res.data.message)
+                            const registerError = true;
 
                             if (res.data.message.hasOwnProperty('first_name')) {
+
                                 document.querySelector('#first_name').classList.add('is-invalid');
                                 document.querySelector('#first_name').nextSibling.innerText = res.data.message.first_name[0];
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('last_name')) {
+
                                 document.querySelector('#last_name').classList.add('is-invalid');
                                 document.querySelector('#last_name').nextSibling.innerText = res.data.message.last_name[0];
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('email')) {
+
                                 document.querySelector('#email').classList.add('is-invalid');
                                 document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('password')) {
@@ -254,32 +261,43 @@ export default {
                                 if (res.data.message.password[0] === 'The password confirmation does not match.') {
                                     document.querySelector('#password_confirmation').classList.add('is-invalid');
                                 }
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('password_confirmation')) {
                                 document.querySelector('#password_confirmation').classList.add('is-invalid');
                                 document.querySelector('#password_confirmation').nextSibling.innerText = res.data.message.password_confirmation[0];
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('profile_picture')) {
                                 document.querySelector('#profile_picture').classList.add('is-invalid');
                                 document.querySelector('#profile_picture').nextSibling.innerText = res.data.message.profile_picture[0];
+                                registerError = false;
                             }
 
                             if (res.data.message.hasOwnProperty('status')) {
                                 document.querySelector('#status').classList.add('is-invalid');
                                 document.querySelector('#status').nextSibling.innerText = res.data.message.status[0];
+                                registerError = false;
                             }
 
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
-                            }, 5000)
+                            if (registerError) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message,
+                                });
+                            }
+
                         }
 
                         if (res.data.success) {
-                            this.success = res.data.success;
-                            this.message = res.data.message;
+                            iziToast.success({
+                                title: 'Success',
+                                position: 'topCenter',
+                                message: res.data.message,
+                            });
 
                             document.querySelectorAll('#registerForm input').forEach(input => {
                                 input.value = '';
@@ -287,11 +305,8 @@ export default {
                                 document.getElementById('status').style.border = null;
                             });
 
-                            setTimeout(function() {
-                                this.success = false;
-                                this.message = '';
+                            this.$emit('goToLogin');
 
-                            }, 5000);
                         }
                     })
                     .catch((error) => console.log(error));

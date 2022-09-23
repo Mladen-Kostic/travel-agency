@@ -13,13 +13,6 @@
         </div>
         
         <form id="travelInsuranceForm" @submit.prevent="makeInsurance">
-            <div v-if="error" class="alert alert-danger" role="alert">
-                {{ this.message }}
-            </div>
-
-            <div v-if="success" class="alert alert-success" role="alert">
-                {{ this.message }}
-            </div>
 
             <input v-if="group" type="hidden" name="group" value="1">
             <div class="form-group row ml-2">
@@ -354,34 +347,30 @@ export default {
                     .then(res => {
                         
                         if (res.data.error) {
-                            this.error = true;
-                            this.message = res.data.message;
-
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
-
-                                document.querySelector('.alert').remove();
-                            }, 5000);
                             
+                            iziToast.error({
+                                title: 'Error',
+                                position: 'topCenter',
+                                message: res.data.message,
+                            });
+
                         }
 
                         if (res.data.success) {
-                            this.success = res.data.success;
-                            this.message = res.data.message;
+                            
+                            iziToast.success({
+                                title: 'Success',
+                                message: res.data.message,
+                                position: 'topCenter'
+                            });
 
                             document.querySelectorAll('#travelInsuranceForm input').forEach(input => {
                                 input.value = '';
                                 input.classList.remove('is-valid');
                             });
 
-                            setTimeout(function() {
-                                this.success = false;
-                                this.message = '';
-
-                            }, 5000);
+                            this.$emit('goToIntro');
                         }
-
                     })
                     .catch(error => console.log(error));
             }

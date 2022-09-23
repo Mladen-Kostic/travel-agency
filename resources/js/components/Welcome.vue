@@ -6,7 +6,7 @@
             :loggedIn="loggedIn"
             :admin="admin"
         />
-
+        
         <div class="container">
             
             <Transition>
@@ -83,30 +83,31 @@ export default {
     // },
     methods: {
         successAction(resData) {
-            this.success = resData.success;
-            this.message = resData.message;
-            this.auth_user_id = resData.auth_user.id;
+
+            iziToast.success({
+                title: 'Success',
+                message: resData.message,
+                position: 'topCenter'
+            });
+            
 
             if (resData.message === "Logged in successfully.") {
                 this.loggedIn = true;
-            }
+                this.auth_user_id = resData.auth_user.id;
 
-            if (resData.auth_user.status === 'admin' || resData.auth_user.status === 'superadmin') {
-                this.admin = true;
+                if (resData.auth_user.status === 'admin' || resData.auth_user.status === 'superadmin') {
+                    this.admin = true;
+                }
             }
+            
         },
-        displayAlert(alertObj) {
-            this.success = 'success' in alertObj ? alertObj.success : false;
-            this.error = 'error' in alertObj ? alertObj.error : false;
+        errorAction(resData) {
 
-            this.message = alertObj.message;
-
-            setTimeout(function() {
-                this.error = false;
-                this.success = false;
-                this.message = '';
-                
-            }, 4000)
+            iziToast.error({
+                title: 'Error',
+                message: resData.message,
+                position: 'topCenter'
+            });
             
         }
     }

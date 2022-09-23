@@ -22,7 +22,7 @@
                         <a :class="{'active': activeObj.Register, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Register')"><i class="fas fa-user-plus"></i> Register</a>
                     </li>
 
-                    <li v-if="!loggedIn" class="nav-item ml-4">
+                    <li class="nav-item ml-4">
                         <a :class="{'active': activeObj.Login, 'nav-link': nav_linkNav}" @click="this.mainPageComp('Login')"><i class="fas fa-sign-in-alt"></i> Login</a>
                     </li>
 

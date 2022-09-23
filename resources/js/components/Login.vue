@@ -102,32 +102,45 @@ export default {
                     .then((res) => {
                         if (res.data.error) {
 
+                            iziToast.error({
+                                title: 'Error',
+                                position: 'topCenter',
+                                message: res.data.message
+                            });
+                            
+
                             if (res.data.message.hasOwnProperty('email')) {
+
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.email[0]
+                                });
+
                                 document.querySelector('#email').classList.add('is-invalid');
                                 document.querySelector('#email').nextSibling.innerText = res.data.message.email[0];
                             }
 
                             if (res.data.message.hasOwnProperty('password')) {
+
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.password[0]
+                                });
+
                                 document.querySelector('#password').classList.add('is-invalid');
                                 document.querySelector('#password').nextSibling.innerText = res.data.message.password[0];
                             }
-
-                            this.error = true;
-                            this.message = res.data.message;
 
                             document.querySelectorAll('#loginForm input').forEach(input => {
                                 input.classList.remove('is-valid');
                             });
 
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
-                            }, 5000)
                         }
 
                         if (res.data.success) {
-                            // this.success = res.data.success;
-                            // this.message = res.data.message;
+                            
 
                             document.querySelectorAll('#loginForm input').forEach(input => {
                                 input.value = '';
@@ -135,26 +148,17 @@ export default {
                             });
 
                             this.$emit('successAction', res.data);
+
                             if (res.data.auth_user.status === 'admin' || res.data.auth_user.status === 'superadmin') {
-                                console.log('goToAdmin');
                                 this.$emit('goToAdmin');
                             } else {
-                                console.log('goToIntro');
                                 this.$emit('goToIntro');
                             }
 
-                            // setTimeout(function() {
-                            //     this.success = false;
-                            //     this.message = '';
-
-                            // }, 5000);
                         }
                     })
                     .catch((error) => console.log(error));
 
-                    // axios.post('/user/login', formData)
-                    // .then((res) => console.log(res))
-                    // .catch((error) => console.log(error));
             }
                 
         }

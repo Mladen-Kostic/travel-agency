@@ -37,6 +37,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        return ['error' => true, 'message' => 'test'];
         $validateArr = $request->hasFile('post_cover_img')
             ? [
                 'users_id' => 'required',

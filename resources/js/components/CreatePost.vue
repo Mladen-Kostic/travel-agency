@@ -112,7 +112,7 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
-    emits: ['goToPosts', 'sendAlert'],
+    emits: ['goToPosts', 'successAction'],
     components: {
         QuillEditor
     },
@@ -248,23 +248,20 @@ export default {
                     .then((res) => {
                         if (res.data.error) {
 
-                            this.error = res.data.error;
-                            this.message = res.data.message;
+                            iziToast.error({
+                                title: 'Error',
+                                position: 'topCenter',
+                                message: res.data.message,
+                            });
 
                             if (res.data.message.hasOwnProperty('post_cover_img')) {
                                 document.querySelector('#post_cover_img').classList.add('is-invalid');
                                 document.querySelector('#post_cover_img').nextSibling.innerText = res.data.message.post_cover_img[0];
                             }
 
-                            setTimeout(function() {
-                                this.error = false;
-                                this.message = '';
-                            }, 5000)
                         }
 
                         if (res.data.success) {
-                            this.success = res.data.success;
-                            this.message = res.data.message;
 
                             document.querySelectorAll('#createPostForm input').forEach(input => {
                                 input.value = '';
@@ -284,14 +281,8 @@ export default {
                                 document.getElementById('post_cover_img').nextSibling.innerText = 'Choose Post Cover (Optional)';
                                 
 
-                            setTimeout(function() {
-                                this.success = false;
-                                this.message = '';
-
-                            }, 5000);
-
                             this.$emit('goToPosts');
-                            this.$emit('sendAlert', {success: this.success, message: this.message});
+                            this.$emit('successAction', res.data);
                         }
                     })
                     .catch((error) => console.log(error));

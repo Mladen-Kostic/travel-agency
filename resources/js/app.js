@@ -10,4 +10,5 @@ const app = createApp({});
 
 app.component('welcome', Welcome);
 app.component('Datepicker', Datepicker);
+
 app.mount('#app');
