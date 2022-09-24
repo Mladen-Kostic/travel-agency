@@ -247,16 +247,40 @@ export default {
                     // .then((res) => console.log(res))
                     .then((res) => {
                         if (res.data.error) {
-
-                            iziToast.error({
-                                title: 'Error',
-                                position: 'topCenter',
-                                message: res.data.message,
-                            });
+                            let toast = true;
 
                             if (res.data.message.hasOwnProperty('post_cover_img')) {
                                 document.querySelector('#post_cover_img').classList.add('is-invalid');
                                 document.querySelector('#post_cover_img').nextSibling.innerText = res.data.message.post_cover_img[0];
+
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.message.post_cover_img[0]
+                                });
+
+                                toast = false;
+                            }
+
+                            if (res.data.message.hasOwnProperty('post_short_description')) {
+                                document.getElementById('postShortDescription').style.border = '1px solid red';
+                                document.getElementById('postShortDescriptionError').innerText = res.data.message.post_short_description[0];
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.post_short_description[0]
+                                });
+                                toast = false;
+                            }
+
+                            if (toast) {
+
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message,
+                                });
+
                             }
 
                         }

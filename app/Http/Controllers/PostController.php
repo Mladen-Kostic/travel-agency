@@ -37,13 +37,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return ['error' => true, 'message' => 'test'];
         $validateArr = $request->hasFile('post_cover_img')
             ? [
                 'users_id' => 'required',
                 'post_title' => 'required',
                 'post_types' => 'required',
-                'post_short_description' => 'required',
+                'post_short_description' => 'required|max:255',
                 'post_content' => 'required',
                 'post_statuses' => 'required',
                 'post_cover_img' => 'image|mimes:jpg,jpeg,png,svg|max:2048'
@@ -52,7 +51,7 @@ class PostController extends Controller
                 'users_id' => 'required',
                 'post_title' => 'required',
                 'post_types' => 'required',
-                'post_short_description' => 'required',
+                'post_short_description' => 'required|max:255',
                 'post_content' => 'required',
                 'post_statuses' => 'required'
             ];
