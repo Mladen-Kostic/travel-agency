@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\TravelInsurance;
+use App\Models\Post;
 
-class TravelInsuranceController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class TravelInsuranceController extends Controller
      */
     public function index()
     {
-        return TravelInsurance::showTravelInsurances();
+        //
     }
 
     /**
@@ -37,18 +37,26 @@ class TravelInsuranceController extends Controller
      */
     public function store(Request $request)
     {
+        $validateArr = $request->hasFile('post_cover_img')
+            ? [
+                'users_id' => 'required',
+                'post_title' => 'required',
+                'post_types' => 'required',
+                'post_short_description' => 'required|max:255',
+                'post_content' => 'required',
+                'post_statuses' => 'required',
+                'post_cover_img' => 'image|mimes:jpg,jpeg,png,svg|max:2048'
+            ]
+            : [
+                'users_id' => 'required',
+                'post_title' => 'required',
+                'post_types' => 'required',
+                'post_short_description' => 'required|max:255',
+                'post_content' => 'required',
+                'post_statuses' => 'required'
+            ];
 
-        $validator = Validator::make($request->all(), [
-            'departure' => 'required',
-            'return' => 'required',
-            'from' => 'required',
-            'to' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:travel_insurances',
-            'phone' => 'required|numeric|min:7',
-            'dob' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), $validateArr);
         
         if ($validator->fails()) {
             return response()->json([
@@ -56,10 +64,17 @@ class TravelInsuranceController extends Controller
                 'message' => $validator->errors()
             ]);
         }
-        
-        TravelInsurance::makeInsurance($request);
 
-        return ['success' => 'true', 'message' => 'Travel Insurance purhcased successfully.'];
+        if ($request->hasFile('post_cover_img')) {
+            $imageName = time() . '.' . $request->file('post_cover_img')->getClientOriginalName();
+
+            $request->file('post_cover_img')->move(public_path('/post_images'), $imageName);
+
+        }
+
+        Post::postStore($request);
+
+        return ['success' => true, 'message' => 'Post is created successfully.'];
     }
 
     /**

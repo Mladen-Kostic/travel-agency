@@ -4,11 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
-use App\Models\TravelInsurance;
+use App\Models\User;
 
-class TravelInsuranceController extends Controller
+class UserController extends Controller
 {
+    public function authenticate(Request $request) {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return ['success' => true, 'message' => 'Logged in successfully.', 'auth_user' => Auth::user()];
+        }
+
+        return ['error' => true, 'message' => 'Error while logging in. Please try again.'];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +32,7 @@ class TravelInsuranceController extends Controller
      */
     public function index()
     {
-        return TravelInsurance::showTravelInsurances();
+        //
     }
 
     /**
@@ -37,29 +53,34 @@ class TravelInsuranceController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'departure' => 'required',
-            'return' => 'required',
-            'from' => 'required',
-            'to' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:travel_insurances',
-            'phone' => 'required|numeric|min:7',
-            'dob' => 'required'
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            'status' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'message' => $validator->errors()
             ]);
         }
-        
-        TravelInsurance::makeInsurance($request);
 
-        return ['success' => 'true', 'message' => 'Travel Insurance purhcased successfully.'];
+        $imageName = $request->profile_picture ? time() . '.' . $request->file('profile_picture')->getClientOriginalName() : false;
+
+        if ($imageName) {
+            $request->file('profile_picture')->move(public_path('/profile_pictures'), $imageName);
+        }
+
+        User::registerUser($request, $imageName);
+
+
+
+        return ['success' => 'true', 'message' => 'User registered successfully.'];
     }
 
     /**

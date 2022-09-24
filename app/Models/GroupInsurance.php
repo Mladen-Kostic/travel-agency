@@ -27,4 +27,17 @@ class GroupInsurance extends Model
         
     }
 
+    public static function groupById($id) {
+        $data = DB::table('group_insurances')
+            ->where('travel_insurances_id', $id)
+            ->select(
+                'first_name',
+                'last_name',
+                'dob'
+            )
+            ->get();
+
+        return $data;
+    }
+
 }

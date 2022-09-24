@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-use App\Models\TravelInsurance;
+use App\Models\GroupInsurance;
 
-class TravelInsuranceController extends Controller
+class GroupInsuranceController extends Controller
 {
+    public function groupById(Request $request, $id) {
+
+        return GroupInsurance::groupById($id);
+
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class TravelInsuranceController extends Controller
      */
     public function index()
     {
-        return TravelInsurance::showTravelInsurances();
+        //
     }
 
     /**
@@ -37,29 +42,7 @@ class TravelInsuranceController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'departure' => 'required',
-            'return' => 'required',
-            'from' => 'required',
-            'to' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:travel_insurances',
-            'phone' => 'required|numeric|min:7',
-            'dob' => 'required'
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => true,
-                'message' => $validator->errors()
-            ]);
-        }
-        
-        TravelInsurance::makeInsurance($request);
-
-        return ['success' => 'true', 'message' => 'Travel Insurance purhcased successfully.'];
+        //
     }
 
     /**
