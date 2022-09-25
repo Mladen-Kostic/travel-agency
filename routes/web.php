@@ -28,12 +28,8 @@ Route::prefix('/travel-insurance')->group(function() {
     Route::put('/{id}', [TravelInsurancecontroller::class, 'update']);
     Route::delete('/{id}', [TravelInsuranceController::class, 'destroy']);
 
-    Route::prefix('/admin')->group(function() {
-
-        Route::get('/show-travel-insurances', [TravelInsuranceController::class, 'index']);
+    Route::get('/admin/show-travel-insurances', [TravelInsuranceController::class, 'index']);
     
-    });
-
 });
 
 Route::prefix('/user')->group(function() {
@@ -57,3 +53,7 @@ Route::prefix('/admin')->group(function() {
     Route::post('/post-store', [PostController::class, 'store']);
 
 });
+
+Route::get('/post-all', [PostController::class, 'index']);
+Route::get('/post/{id}', [PostController::class, 'show']);
+Route::get('/post-edit/{id}', [PostController::class, 'edit']);

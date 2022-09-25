@@ -18,6 +18,7 @@
                     :success="success"
                     :error="error"
                     :message="message"
+                    :postEditData="postEditData"
                     @goToRegister="this.$refs.navbarRef.mainPageComp('Register')"
                     @goToIntro="this.$refs.navbarRef.mainPageComp('Intro')"
                     @goToLogin="this.$refs.navbarRef.mainPageComp('Login')"
@@ -25,8 +26,9 @@
                     @goToAdmin="this.$refs.navbarRef.mainPageComp('Admin')"
                     @goToPosts="this.$refs.navbarRef.mainPageComp('Posts')"
                     @goToCreatePost="this.$refs.navbarRef.mainPageComp('CreatePost')"
+                    @goToPostEdit="this.$refs.navbarRef.mainPageComp('PostEdit')"
+                    @postEditData="(data) => this.postEditDataMethod(data)"
                     @successAction="(resData) => successAction(resData)"
-                    @sendAlert="(alertObj) => displayAlert(alertObj)"
                 />
             </Transition>
 
@@ -45,7 +47,9 @@ import Login from './Login.vue';
 import Admin from './Admin.vue';
 import Posts from './Posts.vue';
 import CreatePost from './CreatePost.vue';
+import PostEdit from './PostEdit.vue';
 // import ref from 'vue';
+import { isProxy, toRaw } from 'vue';
 
 
 export default {
@@ -57,7 +61,8 @@ export default {
         Login,
         Admin,
         Posts,
-        CreatePost
+        CreatePost,
+        PostEdit
     },
     data() {
         return {
@@ -72,6 +77,7 @@ export default {
             loggedIn: true,
             admin: true,
             auth_user_id: 1,
+            postEditData: null,
         }
     },
     // watch: {
@@ -109,6 +115,11 @@ export default {
                 position: 'topCenter'
             });
             
+        },
+        postEditDataMethod(postEdit) {
+            this.postEditData = toRaw(postEdit);
+            this.activeTab = 'PostEdit';
+            console.log(this.postEditData);
         }
     }
 }

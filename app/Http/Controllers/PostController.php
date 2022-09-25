@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return Post::postAll();
     }
 
     /**
@@ -65,6 +65,8 @@ class PostController extends Controller
             ]);
         }
 
+        $imageName = '';
+
         if ($request->hasFile('post_cover_img')) {
             $imageName = time() . '.' . $request->file('post_cover_img')->getClientOriginalName();
 
@@ -72,7 +74,7 @@ class PostController extends Controller
 
         }
 
-        Post::postStore($request);
+        Post::postStore($request, $imageName);
 
         return ['success' => true, 'message' => 'Post is created successfully.'];
     }
@@ -85,7 +87,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return Post::showPost($id);
     }
 
     /**
@@ -96,7 +98,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Post::postEdit($id);
     }
 
     /**
@@ -108,7 +110,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return 'update';
     }
 
     /**

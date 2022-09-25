@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('post_title');
             $table->string('post_short_description');
             $table->text('post_content');
-            $table->string('post_cover_img');
+            $table->string('post_cover_img')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('post_types_id')->references('id')->on('post_types')->onDelete('cascade');
             $table->timestamps();

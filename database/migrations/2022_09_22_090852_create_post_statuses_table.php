@@ -18,7 +18,7 @@ class CreatePostStatusesTable extends Migration
             $table->unsignedBigInteger('posts_id');
             $table->dateTime('published_at')->nullable();
             $table->dateTime('archived_at')->nullable();
-            $table->boolean('staging')->default(1);
+            $table->boolean('staging')->nullable();
             $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();
         });

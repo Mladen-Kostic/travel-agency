@@ -14,14 +14,65 @@ class Post extends Model
         'users_id'
     ];
 
-    public static function postStore($request) {
+    public static function postEdit($id) {
+
+        $post = DB::table('posts')
+            ->where('id', $id)
+            ->first();
+
+        return $post;
+
+    }
+
+    public static function showPost($id) {
+
+        $post = DB::table('posts')
+            ->select(
+                'posts.post_title',
+                'posts.post_content',
+                'posts.post_cover_img',
+                'posts.created_at',
+                
+                'users.first_name',
+                'users.last_name'
+            )
+            ->leftjoin('users', 'posts.users_id', '=', 'users.id')
+            ->where('posts.id', $id)
+            ->first();
+
+        return $post;
+
+    }
+
+    public static function postAll() {
+        $result = DB::table('posts')
+            ->select(
+                'posts.id',
+                'posts.created_at',
+                'posts.post_title',
+                'posts.post_short_description',
+
+                'post_statuses.published_at',
+                'post_statuses.archived_at',
+                'post_statuses.staging',
+
+                'users.first_name'
+            )
+            ->leftjoin('post_statuses', 'posts.id', '=', 'post_statuses.posts_id')
+            ->leftjoin('users', 'users.id', '=', 'posts.users_id')
+            ->get();
+
+        return $result;
+    }
+
+    public static function postStore($request, $imageName) {
         $lastInsertId = DB::table('posts')->insertGetId([
             'users_id' => $request->users_id,
             'post_types_id' => $request->post_types,
             'post_title' => $request->post_title,
             'post_short_description' => $request->post_short_description,
             'post_content' => $request->post_content,
-            'post_cover_img' => $request->hasFile('post_cover_img') ? $request->post_cover_img_name : '',
+            'post_cover_img' => $imageName ? $imageName : '',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);

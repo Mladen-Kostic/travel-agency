@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1 class="mb-4"><i class="fas fa-plus"></i> Create Post</h1>
-        
+        <h1 class="mb-4"><i class="fas fa-user-edit"></i> Edit Post</h1>
+        {{ postEdit }}
         <!-- <form id="travelInsuranceForm" @submit.prevent="makeInsurance"> -->
-        <form id="createPostForm" @submit.prevent="createPost" enctype="multipart/form-data">
+        <form id="editPostForm" @submit.prevent="createPost" enctype="multipart/form-data">
             <div v-if="error" class="alert alert-danger" role="alert">
                 {{ this.message }}
             </div>
@@ -112,6 +112,14 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
+    props: {
+        postEditData: Object,
+        testId: Number
+    },
+    mounted() {
+        this.postEdit = this.postEditData;
+        console.log(this.testId);
+    },
     emits: ['goToPosts', 'successAction'],
     components: {
         QuillEditor
@@ -126,7 +134,8 @@ export default {
             message: '',
             pictureError: false,
             postShortDescription: '',
-            postContent: ''
+            postContent: '',
+            postEdit: null,
         }
     },
     methods: {

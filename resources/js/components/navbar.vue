@@ -10,7 +10,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-4">
                         
-                    <li class="nav-item">
+                    <li class="nav-item ml-4">
                         <a :class="{'active': activeObj.TravelInsuranceForm, 'nav-link': nav_linkNav}" @click="this.mainPageComp('TravelInsuranceForm')"><i class="fas fa-user-shield"></i> Travel Insurance</a>
                     </li>
 

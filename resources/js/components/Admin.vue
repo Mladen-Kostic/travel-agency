@@ -6,6 +6,7 @@
             <h3><i class="fas fa-user-shield"></i> Insured</h3>
             <div class="tableResponsive">
             <table v-if="travelInsurances" class="table mr-2">
+                
                 <thead>
                     <tr>
                     <!-- <th scope="col">ID</th> -->
@@ -130,7 +131,12 @@ export default {
         axios.get('/travel-insurance/admin/show-travel-insurances')
             // .then((res) => console.log(res.data[0].dob))
             .then((res) => {
-                this.travelInsurances = res.data;
+                if (res.data) {
+                    this.travelInsurances = res.data;
+                } else {
+                    this.travelInsurances = false;
+                }
+
             })
             .catch((error) => console.log(error));
     }
