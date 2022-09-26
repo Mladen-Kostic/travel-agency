@@ -4,11 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function archive(Request $request) {
+
+        $validator = Validator::make($request->all(), ['id' => 'required']);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        Post::archive($request->id);
+
+        return ['success' => true, 'message' => 'Post archived successfully.'];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -108,9 +124,50 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        return 'update';
+        $validateArr = $request->hasFile('post_cover_img')
+            ? [
+                'id' => 'required',
+                'post_title' => 'required',
+                'post_types' => 'required',
+                'post_short_description' => 'required|max:255',
+                'post_content' => 'required',
+                'post_statuses' => 'required',
+                'post_cover_img' => 'image|mimes:jpg,jpeg,png,svg|max:2048'
+            ]
+            : [
+                'id' => 'required',
+                'post_title' => 'required',
+                'post_types' => 'required',
+                'post_short_description' => 'required|max:255',
+                'post_content' => 'required',
+                'post_statuses' => 'required'
+            ];
+
+        $validator = Validator::make($request->all(), $validateArr);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $imageName = '';
+
+        if ($request->hasFile('post_cover_img')) {
+            $imageName = time() . '.' . $request->file('post_cover_img')->getClientOriginalName();
+
+            File::delete('post_images/' . $request->post_cover_img_delete);
+
+            $request->file('post_cover_img')->move(public_path('/post_images'), $imageName);
+
+        }
+
+        Post::postUpdate($request, $imageName);
+
+        return ['success' => true, 'message' => 'Post updated successfully.'];
     }
 
     /**

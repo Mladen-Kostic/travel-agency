@@ -73,7 +73,7 @@
                         <td v-else>Individual</td>
                         <td>
                             <div class="dropdown show">
-                                <a class="btn btn-primary dropdown-toggle bg-transparent" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Show more information about the Insured.">
+                                <a class="btn btn-primary dropdown-toggle bg-transparent dropdownBorder" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Show more information about the Insured.">
                                     ...
                                 </a>
 
@@ -179,6 +179,10 @@ export default {
     width: 100%;
     
     -webkit-overflow-scrolling: touch;
+}
+
+.dropdownBorder {
+    border-color:#fff!important;
 }
 
 @media (max-width: 800px) {

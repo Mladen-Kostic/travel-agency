@@ -69,7 +69,7 @@ export default {
             activeTab: 'Intro',
             success: false,
             error: false,
-            message: 'test',
+            message: '',
             method: null,
             // loggedIn: false,
             // admin: false,
@@ -116,10 +116,16 @@ export default {
             });
             
         },
-        postEditDataMethod(postEdit) {
-            this.postEditData = toRaw(postEdit);
+        postEditDataMethod(id) {
+
+            axios.get('/post-edit/' + id)
+                .then((res) => {
+                    this.postEditData = res.data;
+                })
+                .catch((error) => console.log(error));
+
             this.activeTab = 'PostEdit';
-            console.log(this.postEditData);
+            
         }
     }
 }

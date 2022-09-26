@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="item in posts" :key="item.id">
-                        <td>{{ item.id }}</td>
+                        <td :id="'ID' + item.id">{{ item.id }}</td>
                         <td>{{ formatDate(item.created_at) }}</td>
                         <td>{{ item.post_title.length > 20 ? item.post_title.slice(0, 20) + '...' : item.post_title }}</td>
 
@@ -35,10 +35,10 @@
                             </div>
                         </td>
 
-                        <td v-if="item.published_at">{{ 'Published' }}</td>
-                        <td v-if="item.archived_at">{{ 'Archived' }}</td>
-                        <td v-if="item.staging">{{ 'Staged' }}</td>
-                        <td>{{ item.published_at ? formatDate(item.published_at) : 'Not Published' }}</td>
+                        <td :id="'postStatus' + item.id" v-if="item.published_at">{{ 'Published' }}</td>
+                        <td :id="'postStatus' + item.id" v-if="item.archived_at">{{ 'Archived' }}</td>
+                        <td :id="'postStatus' + item.id" v-if="item.staging">{{ 'Staged' }}</td>
+                        <td :id="'notPublished' + item.id">{{ item.published_at ? formatDate(item.published_at) : 'Not Published' }}</td>
                         <td>{{ item.first_name }}</td>
                         
                         <td>
@@ -54,9 +54,9 @@
                                         </button>
 
                                         
-                                    <button @click="postEdit(item.id)" class="btn btn-outline-light btn-block"><i class="fas fa-user-edit"></i> Edit</button>
-                                    <a class="dropdown-item bg-transparent"><i class="fas fa-folder-plus"></i> Archive</a>
-                                    <a class="dropdown-item bg-transparent"><i class="fas fa-trash"></i> Delete</a>
+                                    <button @click="postEdit(item.id)" class="btn btn-outline-light btn-block"><i class="fas fa-edit"></i> Edit <span class="ml-4"></span></button>
+                                    <button :id="'archiveBtn' + item.id" v-if="!item.archived_at" @click="postArchive(item.id, item.archived_at)" class="btn btn-outline-light btn-block"><i class="fas fa-folder-plus"></i> Archive</button>
+                                    <button  class="btn btn-outline-light btn-block"><i class="fas fa-trash"></i> Delete <span class="ml-2"></span></button>
                                 </div>
                             </div>
                             <!-- Modal -->
@@ -73,10 +73,12 @@
                                         <div class="row p-4" v-if="singlePost">
                                             <img class="col-12" :src="img" alt="post_cover_image">
 
-                                            <h3 class="col-12 text-center">{{ singlePost.post_title }}</h3>
+                                            <h1 class="col-12 text-center mt-4">{{ singlePost.post_title }}</h1>
 
-                                            <p class="col-10">{{ singlePost.first_name + ' ' + singlePost.last_name }}</p>
-                                            <p class="col-2">{{ formatDate(singlePost.created_at) }}</p>
+                                            <div class="mt-2 mb-5 col-12 row">
+                                                <p class="col-10">{{ singlePost.first_name + ' ' + singlePost.last_name }}</p>
+                                                <p class="col-2">{{ formatDate(singlePost.created_at) }}</p>
+                                            </div>
                                             
                                             <p v-html="singlePost.post_content"></p>
                                         </div>
@@ -89,8 +91,8 @@
                             </div>
                         </td>
 
+                    <button @click="test(item.id)">Remove Row</button>
                     </tr>
-                    
                 </tbody>
             </table>
 
@@ -98,6 +100,7 @@
                 <h3>Could not find any Posts...</h3>
                 <h3>¯\_(ツ)_/¯</h3>
             </div>
+            
         </div>
 
     </div>
@@ -137,6 +140,9 @@ export default {
 
     },
     methods: {
+        test(id) {
+            document.getElementById('ID' + id).parentElement.remove();
+        },
         formatDate(d) {
             const date = new Date(d);
 
@@ -156,12 +162,41 @@ export default {
                 .catch((error) => console.log(error));
         },
         postEdit(id) {
-            axios.get('/post-edit/' + id)
-                .then((res) => {
-                    this.$emit('postEditData', res.data)
-                })
-                // $emit('goToPostEdit')
-                .catch((error) => console.log(error));
+            // axios.get('/post-edit/' + id)
+            //     .then((res) => {
+            //         this.$emit('postEditData', res.data)
+            //     })
+            //     // $emit('goToPostEdit')
+            //     .catch((error) => console.log(error));
+            this.$emit('postEditData', id);
+        },
+        postArchive(id, archived_at) {
+
+            if (!archived_at) {
+
+                axios.post('/post-archive', {id})
+                    .then((res) => {
+                        iziToast.success({
+                            title: 'Success',
+                            message: res.data.message,
+                            position: 'topCenter'
+                        });
+
+                        document.getElementById('postStatus' + id).innerText = 'Archived';
+                        document.getElementById('notPublished' + id).innerText = 'Not published';
+                        document.getElementById('archiveBtn' + id).remove();
+
+                    })
+                    .catch((error) => console.log(error));
+
+            } else {
+                iziToast.warning({
+                    title: 'Archive',
+                    message: 'Post is already archived.',
+                    position: 'topCenter'
+                });
+            }
+
         }
     }
 }
@@ -197,5 +232,10 @@ export default {
 
 .dropdownBorder {
     border-color:#fff!important;
+}
+
+.btn-outline-light {
+    border: none!important;
+    outline: none!important;
 }
 </style>
