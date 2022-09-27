@@ -56,7 +56,7 @@
                                         
                                     <button @click="postEdit(item.id)" class="btn btn-outline-light btn-block"><i class="fas fa-edit"></i> Edit <span class="ml-4"></span></button>
                                     <button :id="'archiveBtn' + item.id" v-if="!item.archived_at" @click="postArchive(item.id, item.archived_at)" class="btn btn-outline-light btn-block"><i class="fas fa-folder-plus"></i> Archive</button>
-                                    <button  class="btn btn-outline-light btn-block"><i class="fas fa-trash"></i> Delete <span class="ml-2"></span></button>
+                                    <button @click="postRemove(item.id)" class="btn btn-outline-light btn-block"><i class="fas fa-trash"></i> Delete <span class="ml-2"></span></button>
                                 </div>
                             </div>
                             <!-- Modal -->
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="row p-4" v-if="singlePost">
-                                            <img class="col-12" :src="img" alt="post_cover_image">
+                                            <img v-if="singlePost.post_cover_img" class="col-12" :src="img" alt="post_cover_image">
 
                                             <h1 class="col-12 text-center mt-4">{{ singlePost.post_title }}</h1>
 
@@ -91,7 +91,6 @@
                             </div>
                         </td>
 
-                    <button @click="test(item.id)">Remove Row</button>
                     </tr>
                 </tbody>
             </table>
@@ -108,7 +107,7 @@
 
 <script>
 export default {
-    emits: ['postEditData'],
+    emits: ['postEditData', 'goToCreatePost'],
     props: {
         loggedIn: Boolean,
         admin: Boolean,
@@ -128,8 +127,8 @@ export default {
         axios.get('/post-all')
             // .then((res) => console.log(res))
             .then((res) => {
-
-                if (res.data) {
+                
+                if (res.data.length) {
                     this.posts = res.data;
                 } else {
                     this.posts = false;
@@ -140,8 +139,37 @@ export default {
 
     },
     methods: {
-        test(id) {
-            document.getElementById('ID' + id).parentElement.remove();
+        postRemove(id) {
+            if (id) {
+                axios.post('/post-remove', {id})
+                    .then((res) => {
+                        if (res.data.success) {
+                            document.getElementById('ID' + id).parentElement.remove();
+                            this.posts = false;
+
+                            iziToast.success({
+                                title: 'Success',
+                                message: res.data.message,
+                                position: 'topCenter'
+                            });
+
+                        }
+
+                        if (res.data.error) {
+                            iziToast.error({
+                                title: 'Error',
+                                message: res.data.message,
+                                position: 'topCenter'
+                            });
+                        }
+                    })
+                    .catch((error) => console.log(error));
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    position: 'topCenter'
+                });
+            }
         },
         formatDate(d) {
             const date = new Date(d);

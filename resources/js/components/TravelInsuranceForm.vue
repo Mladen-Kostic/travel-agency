@@ -345,14 +345,79 @@ export default {
                     data: formData
                 })
                     .then(res => {
-                        
+                        console.log(res.data.message.email)
                         if (res.data.error) {
-                            
-                            iziToast.error({
-                                title: 'Error',
-                                position: 'topCenter',
-                                message: res.data.message,
-                            });
+                            if (res.data.message.hasOwnProperty('departure')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.departure[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('return')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.return[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('from')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.from[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('to')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.to[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('first_name')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.first_name[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('last_name')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.last_name[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('email')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.email[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('phone')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.phone[0],
+                                });
+                            }
+
+                            if (res.data.message.hasOwnProperty('dob')) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    position: 'topCenter',
+                                    message: res.data.message.dob[0],
+                                });
+                            }
 
                         }
 

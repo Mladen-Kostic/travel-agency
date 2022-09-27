@@ -176,8 +176,19 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), ['id' => 'required']);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->error()
+            ]);
+        }
+
+        Post::postRemove($request->id);
+
+        return ['success' => true, 'message' => 'Post deleted successfully.'];
     }
 }

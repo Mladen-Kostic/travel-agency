@@ -60,3 +60,4 @@ Route::get('/post/{id}', [PostController::class, 'show']);
 Route::get('/post-edit/{id}', [PostController::class, 'edit']);
 Route::post('/post-update', [PostController::class, 'update']);
 Route::post('/post-archive', [PostController::class, 'archive']);
+Route::post('/post-remove', [PostController::class, 'destroy']);

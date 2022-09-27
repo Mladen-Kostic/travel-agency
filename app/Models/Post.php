@@ -14,6 +14,12 @@ class Post extends Model
         'users_id'
     ];
 
+    public static function postRemove($id) {
+        DB::table('posts')
+            ->where('id', $id)
+            ->delete();
+    }
+
     public static function archive($id) {
         DB::table('post_statuses')
             ->where('posts_id', $id)
